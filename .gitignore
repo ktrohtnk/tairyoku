@@ -1,0 +1,5 @@
+.DS_Store
+.vercel
+_archive/
+__pycache__/
+*.pyc
