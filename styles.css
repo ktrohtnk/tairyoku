@@ -144,20 +144,19 @@ a:focus-visible,
   flex-wrap: wrap;
 }
 
-.brand-link {
+.brand-link,
+.brand-link:hover,
+.brand-link[aria-pressed="true"] {
   font-family: var(--font-raw);
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-decoration: none;
+  background: transparent;
+  color: var(--ink);
   display: inline-flex;
   align-items: center;
   gap: 6px;
-}
-
-.brand-link:hover {
-  background: var(--ink);
-  color: var(--bg);
 }
 
 .brand-logo-mini {

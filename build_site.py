@@ -155,20 +155,19 @@ a:focus-visible,
   flex-wrap: wrap;
 }
 
-.brand-link {
+.brand-link,
+.brand-link:hover,
+.brand-link[aria-pressed="true"] {
   font-family: var(--font-raw);
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-decoration: none;
+  background: transparent;
+  color: var(--ink);
   display: inline-flex;
   align-items: center;
   gap: 6px;
-}
-
-.brand-link:hover {
-  background: var(--ink);
-  color: var(--bg);
 }
 
 .brand-logo-mini {
@@ -1158,6 +1157,7 @@ APP_JS = r"""/* ================================================================
     currentFilter = filterKey;
     htmlEl.setAttribute("data-filter", filterKey);
     document.querySelectorAll("[data-filter-btn]").forEach((btn) => {
+      if (btn.classList && btn.classList.contains("brand-link")) return;
       btn.setAttribute("aria-pressed", String(btn.dataset.filterBtn === filterKey));
     });
     let visibleCount = 0;
@@ -2105,7 +2105,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=7">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=8">
 </head>
 <body>
 {build_svg_filter()}
@@ -2339,7 +2339,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=7"></script>
+<script src="{p_url('/app.js')}?v=8"></script></script>
 </body>
 </html>
 """

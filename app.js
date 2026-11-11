@@ -109,6 +109,7 @@
     currentFilter = filterKey;
     htmlEl.setAttribute("data-filter", filterKey);
     document.querySelectorAll("[data-filter-btn]").forEach((btn) => {
+      if (btn.classList && btn.classList.contains("brand-link")) return;
       btn.setAttribute("aria-pressed", String(btn.dataset.filterBtn === filterKey));
     });
     let visibleCount = 0;
