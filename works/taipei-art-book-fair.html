@@ -17,7 +17,7 @@
   <meta name="twitter:description" content="TAIRYOKU participated in the Taipei Art Book Fair with ZINEs and printed works.">
   <meta name="twitter:image" content="https://tairyoku.jp/assets/exhibitions/taipei-art-book-fair/taipei-01.jpg">
   <link rel="icon" href="../favicon.svg">
-  <link rel="stylesheet" href="../styles.css?v=8">
+  <link rel="stylesheet" href="../styles.css?v=9">
 </head>
 <body>
 <svg class="svg-defs" aria-hidden="true">
@@ -179,14 +179,24 @@
           </div>
         </div>
 
-        <div>
-          <p style="font-family:var(--font-mono);font-size:11px;margin:0 0 6px;">EXHIBITIONS &amp; CHRONOLOGY (2024—NOW):</p>
-          <table class="raw-table">
-            <thead>
-              <tr><th>Date</th><th>Event / Work</th><th>Location</th></tr>
-            </thead>
-            <tbody><tr><td style="font-family:var(--font-mono)">09.04—09.07</td><td>YOU &amp; I — Kokura Shuyu Bunka-sai</td><td>MID. (Kitakyushu)</td></tr><tr><td style="font-family:var(--font-mono)">07.01—08.03</td><td>SOFT_MEN</td><td>Tsutaya Books, ONE FUKUOKA BLDG.</td></tr><tr><td style="font-family:var(--font-mono)">2026</td><td>10zine 2026</td><td>Fukuoka</td></tr><tr><td style="font-family:var(--font-mono)">2026</td><td>CD artwork — ここは円の外 (蜃気楼シング・シング)</td><td>Commission</td></tr><tr><td style="font-family:var(--font-mono)">2025</td><td>Taipei Art Book Fair</td><td>Taipei, Taiwan</td></tr><tr><td style="font-family:var(--font-mono)">2025</td><td>10zine Vol.13</td><td>Fukuoka</td></tr><tr><td style="font-family:var(--font-mono)">2024</td><td>TAIRYOKU founded in Fukuoka / 福岡で体力の活動を開始</td><td>Fukuoka</td></tr></tbody>
-          </table>
+        <div class="chronology-col">
+          <div class="chronology-head">
+            <p class="chronology-label">EXHIBITIONS &amp; CHRONOLOGY (2024—NOW):</p>
+            <button type="button" class="raw-btn" id="chronology-toggle-btn" hidden aria-expanded="false">[expand all (7) ↕]</button>
+          </div>
+          <div class="chronology-scroll" id="chronology-scroll">
+            <table class="raw-table chronology-table">
+              <colgroup>
+                <col class="chronology-col-date">
+                <col class="chronology-col-title">
+                <col class="chronology-col-loc">
+              </colgroup>
+              <thead>
+                <tr><th>Date</th><th>Event / Work</th><th>Location</th></tr>
+              </thead>
+              <tbody><tr><td class="chronology-date" style="font-family:var(--font-mono)">09.04—09.07</td><td class="chronology-title">YOU &amp; I — Kokura Shuyu Bunka-sai</td><td class="chronology-loc">MID. (Kitakyushu)</td></tr><tr><td class="chronology-date" style="font-family:var(--font-mono)">07.01—08.03</td><td class="chronology-title">SOFT_MEN</td><td class="chronology-loc">Tsutaya Books, ONE FUKUOKA BLDG.</td></tr><tr><td class="chronology-date" style="font-family:var(--font-mono)">2026</td><td class="chronology-title">10zine 2026</td><td class="chronology-loc">Fukuoka</td></tr><tr><td class="chronology-date" style="font-family:var(--font-mono)">2026</td><td class="chronology-title">CD artwork — ここは円の外 (蜃気楼シング・シング)</td><td class="chronology-loc">Commission</td></tr><tr><td class="chronology-date" style="font-family:var(--font-mono)">2025</td><td class="chronology-title">Taipei Art Book Fair</td><td class="chronology-loc">Taipei, Taiwan</td></tr><tr><td class="chronology-date" style="font-family:var(--font-mono)">2025</td><td class="chronology-title">10zine Vol.13</td><td class="chronology-loc">Fukuoka</td></tr><tr><td class="chronology-date" style="font-family:var(--font-mono)">2024</td><td class="chronology-title">TAIRYOKU founded in Fukuoka / 福岡で体力の活動を開始</td><td class="chronology-loc">Fukuoka</td></tr></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -272,6 +282,6 @@ window.INITIAL_PROJECT_ID = "taipei-art-book-fair";
 window.INITIAL_FILTER = "all";
 window.INITIAL_SCROLL_TARGET = null;
 </script>
-<script src="../app.js?v=8"></script></script>
+<script src="../app.js?v=9"></script></script>
 </body>
 </html>

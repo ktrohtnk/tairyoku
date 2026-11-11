@@ -651,7 +651,7 @@ html[data-view="table"] .table-stage { display: block; }
 }
 
 .raw-section-inner {
-  max-width: 960px;
+  max-width: 1080px;
 }
 
 .raw-h1 {
@@ -678,9 +678,114 @@ html[data-view="table"] .table-stage { display: block; }
 
 .raw-grid-2 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: 20px;
+  grid-template-columns: minmax(250px, 340px) minmax(0, 1fr);
+  gap: 22px 26px;
+  align-items: start;
   margin-top: 18px;
+}
+
+.chronology-col {
+  min-width: 0;
+}
+
+.chronology-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin: 0 0 6px;
+}
+
+.chronology-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  margin: 0;
+}
+
+.chronology-scroll {
+  max-height: clamp(280px, 44vh, 400px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid var(--ink);
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink) transparent;
+}
+
+.chronology-scroll.is-expanded {
+  max-height: none;
+  overflow-y: visible;
+}
+
+.chronology-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chronology-scroll::-webkit-scrollbar-thumb {
+  background: var(--ink);
+}
+
+.chronology-table {
+  width: 100%;
+  border: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.chronology-table th,
+.chronology-table td {
+  border: 0;
+  border-right: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.chronology-table th:last-child,
+.chronology-table td:last-child {
+  border-right: 0;
+}
+
+.chronology-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.chronology-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(var(--ink-soft), var(--ink-soft)), var(--bg);
+}
+
+.chronology-table tbody tr {
+  cursor: default;
+}
+
+.chronology-table tbody tr:hover {
+  background: var(--ink-soft);
+  color: var(--ink);
+}
+
+.chronology-table tbody tr:hover a {
+  color: var(--ink);
+}
+
+.chronology-col-date {
+  width: 108px;
+}
+
+.chronology-col-loc {
+  width: 34%;
+}
+
+.chronology-note {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.85;
 }
 
 .stamp-zone {
@@ -999,6 +1104,50 @@ html[data-color="hover"] .contact-video-frame:hover .contact-video {
     justify-self: center;
     max-width: 300px;
     margin-top: 4px;
+  }
+}
+
+@media (max-width: 860px) {
+  .raw-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .chronology-table colgroup,
+  .chronology-table thead {
+    display: none;
+  }
+  .chronology-table,
+  .chronology-table tbody,
+  .chronology-table tr,
+  .chronology-table td {
+    display: block;
+    width: 100%;
+  }
+  .chronology-table tbody tr {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .chronology-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .chronology-table td {
+    border: 0;
+    padding: 0;
+  }
+  .chronology-table td.chronology-date {
+    font-size: 11px;
+    opacity: 0.78;
+    margin-bottom: 2px;
+  }
+  .chronology-table td.chronology-title {
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .chronology-table td.chronology-loc {
+    font-size: 12px;
+    opacity: 0.85;
   }
 }
 """
@@ -1978,6 +2127,27 @@ APP_JS = r"""/* ================================================================
     if (p && typeof p.catch === "function") p.catch(() => {});
   });
 
+  const chronologyScroll = document.getElementById("chronology-scroll");
+  const chronologyToggleBtn = document.getElementById("chronology-toggle-btn");
+  if (chronologyScroll && chronologyToggleBtn) {
+    const totalCount = chronologyScroll.querySelectorAll("tbody tr").length;
+    const syncChronologyToggle = () => {
+      const isExpanded = chronologyScroll.classList.contains("is-expanded");
+      const overflows = chronologyScroll.scrollHeight > chronologyScroll.clientHeight + 4;
+      chronologyToggleBtn.hidden = !isExpanded && !overflows;
+      chronologyToggleBtn.setAttribute("aria-expanded", String(isExpanded));
+      chronologyToggleBtn.textContent = isExpanded
+        ? "[collapse ↑]"
+        : `[expand all (${totalCount}) ↕]`;
+    };
+    chronologyToggleBtn.addEventListener("click", () => {
+      chronologyScroll.classList.toggle("is-expanded");
+      syncChronologyToggle();
+    });
+    window.addEventListener("resize", syncChronologyToggle);
+    syncChronologyToggle();
+  }
+
   if (window.INITIAL_PROJECT_ID) {
     openDetailSheet(window.INITIAL_PROJECT_ID, 0, false);
   }
@@ -2073,10 +2243,23 @@ def render_page_html(
         for m in team["members"]
     )
 
-    history_rows = "".join(
-        f'<tr><td style="font-family:var(--font-mono)">{html_lib.escape(h["date"])}</td><td>{html_lib.escape(h["title"])}</td><td>{html_lib.escape(h["place"])}</td></tr>'
-        for h in team["history"]
-    )
+    def fmt_multiline(text):
+        return html_lib.escape(text).replace("\n", "<br>")
+
+    history_rows_list = []
+    for h in team["history"]:
+        title_html = fmt_multiline(h["title"])
+        if h.get("url"):
+            title_html = f'<a href="{html_lib.escape(h["url"])}" target="_blank" rel="noreferrer">{title_html} ↗</a>'
+        note_html = f'<div class="chronology-note">{fmt_multiline(h["note"])}</div>' if h.get("note") else ""
+        history_rows_list.append(
+            f'<tr>'
+            f'<td class="chronology-date" style="font-family:var(--font-mono)">{fmt_multiline(h["date"])}</td>'
+            f'<td class="chronology-title">{title_html}{note_html}</td>'
+            f'<td class="chronology-loc">{fmt_multiline(h["place"])}</td>'
+            f'</tr>'
+        )
+    history_rows = "".join(history_rows_list)
 
     init_script = f"""<script>
 window.ASSET_PREFIX = {json.dumps(prefix)};
@@ -2105,7 +2288,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=8">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=9">
 </head>
 <body>
 {build_svg_filter()}
@@ -2252,14 +2435,24 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
           </div>
         </div>
 
-        <div>
-          <p style="font-family:var(--font-mono);font-size:11px;margin:0 0 6px;">EXHIBITIONS &amp; CHRONOLOGY (2024—NOW):</p>
-          <table class="raw-table">
-            <thead>
-              <tr><th>Date</th><th>Event / Work</th><th>Location</th></tr>
-            </thead>
-            <tbody>{history_rows}</tbody>
-          </table>
+        <div class="chronology-col">
+          <div class="chronology-head">
+            <p class="chronology-label">EXHIBITIONS &amp; CHRONOLOGY (2024—NOW):</p>
+            <button type="button" class="raw-btn" id="chronology-toggle-btn" hidden aria-expanded="false">[expand all ({len(team["history"])}) ↕]</button>
+          </div>
+          <div class="chronology-scroll" id="chronology-scroll">
+            <table class="raw-table chronology-table">
+              <colgroup>
+                <col class="chronology-col-date">
+                <col class="chronology-col-title">
+                <col class="chronology-col-loc">
+              </colgroup>
+              <thead>
+                <tr><th>Date</th><th>Event / Work</th><th>Location</th></tr>
+              </thead>
+              <tbody>{history_rows}</tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -2339,7 +2532,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=8"></script></script>
+<script src="{p_url('/app.js')}?v=9"></script></script>
 </body>
 </html>
 """

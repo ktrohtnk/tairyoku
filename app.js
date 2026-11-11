@@ -930,6 +930,27 @@
     if (p && typeof p.catch === "function") p.catch(() => {});
   });
 
+  const chronologyScroll = document.getElementById("chronology-scroll");
+  const chronologyToggleBtn = document.getElementById("chronology-toggle-btn");
+  if (chronologyScroll && chronologyToggleBtn) {
+    const totalCount = chronologyScroll.querySelectorAll("tbody tr").length;
+    const syncChronologyToggle = () => {
+      const isExpanded = chronologyScroll.classList.contains("is-expanded");
+      const overflows = chronologyScroll.scrollHeight > chronologyScroll.clientHeight + 4;
+      chronologyToggleBtn.hidden = !isExpanded && !overflows;
+      chronologyToggleBtn.setAttribute("aria-expanded", String(isExpanded));
+      chronologyToggleBtn.textContent = isExpanded
+        ? "[collapse ↑]"
+        : `[expand all (${totalCount}) ↕]`;
+    };
+    chronologyToggleBtn.addEventListener("click", () => {
+      chronologyScroll.classList.toggle("is-expanded");
+      syncChronologyToggle();
+    });
+    window.addEventListener("resize", syncChronologyToggle);
+    syncChronologyToggle();
+  }
+
   if (window.INITIAL_PROJECT_ID) {
     openDetailSheet(window.INITIAL_PROJECT_ID, 0, false);
   }
