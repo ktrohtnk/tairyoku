@@ -882,39 +882,39 @@ html[data-view="table"] .table-stage { display: block; }
   white-space: nowrap;
 }
 
-/* Stamp clones created on click — large radial pop-out burst */
+/* Stamp clones created on click — large random full-window stamps */
 .ink-stamp {
   position: fixed;
-  width: var(--stamp-size, 180px);
-  height: var(--stamp-size, 180px);
+  width: var(--stamp-size, 200px);
+  height: var(--stamp-size, 200px);
   pointer-events: none;
   z-index: 95;
   filter: url(#tairyoku-duotone);
   transform-origin: center center;
   will-change: transform, opacity;
-  animation: tairyoku-stamp-pop var(--stamp-dur, 2400ms) cubic-bezier(0.16, 1, 0.3, 1) var(--stamp-delay, 0ms) both;
+  animation: tairyoku-stamp-pop var(--stamp-dur, 2300ms) cubic-bezier(0.16, 1, 0.3, 1) var(--stamp-delay, 0ms) both;
 }
 
 @keyframes tairyoku-stamp-pop {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) translate(0px, 0px) rotate(var(--r0, 0deg)) scale(0.12);
+    transform: translate(-50%, -50%) rotate(var(--r0, 0deg)) scale(0.2);
   }
-  16% {
+  15% {
     opacity: 1;
-    transform: translate(-50%, -50%) translate(calc(var(--dx, 0px) * 0.65), calc(var(--dy, 0px) * 0.65)) rotate(var(--r1, 8deg)) scale(var(--s-pop, 1.38));
+    transform: translate(-50%, -50%) rotate(var(--r1, -6deg)) scale(var(--s-pop, 1.35));
   }
-  34% {
-    opacity: 0.94;
-    transform: translate(-50%, -50%) translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r2, -4deg)) scale(var(--s-land, 1));
+  28% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) rotate(var(--r2, -4deg)) scale(var(--s-land, 1));
   }
-  76% {
-    opacity: 0.88;
-    transform: translate(-50%, -50%) translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r2, -4deg)) scale(var(--s-land, 1));
+  78% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) rotate(var(--r2, -4deg)) scale(var(--s-land, 1));
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) translate(var(--dx, 0px), calc(var(--dy, 0px) + 16px)) rotate(var(--r2, -4deg)) scale(calc(var(--s-land, 1) * 0.96));
+    transform: translate(-50%, -50%) rotate(var(--r2, -4deg)) scale(calc(var(--s-land, 1) * 0.96));
   }
 }
 

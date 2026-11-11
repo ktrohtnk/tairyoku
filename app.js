@@ -851,24 +851,18 @@
      -------------------------------------------------------------------------- */
   const stampBtn = document.getElementById("stamp-trigger");
   if (stampBtn) {
-    const triggerStampBurst = (e) => {
+    const triggerStampBurst = () => {
       const vw = window.innerWidth || 1200;
       const vh = window.innerHeight || 800;
       const isNarrow = vw < 640;
-      const logoEl = stampBtn.querySelector("img") || stampBtn;
-      const rect = logoEl.getBoundingClientRect ? logoEl.getBoundingClientRect() : null;
-      const fallbackX = rect ? rect.left + rect.width / 2 : vw / 2;
-      const fallbackY = rect ? rect.top + rect.height / 2 : vh / 2;
-      const ox = e && e.clientX > 0 ? e.clientX : fallbackX;
-      const oy = e && e.clientY > 0 ? e.clientY : fallbackY;
 
       stampBtn.classList.remove("is-popping");
       if (stampBtn.offsetWidth >= 0) stampBtn.classList.add("is-popping");
       setTimeout(() => stampBtn.classList.remove("is-popping"), 220);
 
       const count = 7;
-      const maxRX = Math.min(vw * 0.42, 420);
-      const maxRY = Math.min(vh * 0.36, 300);
+      const placed = [];
+      const minDist = Math.min(vw, vh) * 0.22;
 
       for (let i = 0; i < count; i++) {
         const st = document.createElement("img");
@@ -878,37 +872,35 @@
 
         const isHero = i === 0;
         const size = isHero
-          ? (isNarrow ? 185 : 265) + Math.random() * 65
-          : (isNarrow ? 115 : 150) + Math.random() * (isNarrow ? 75 : 120);
+          ? (isNarrow ? 190 : 270) + Math.random() * 70
+          : (isNarrow ? 120 : 165) + Math.random() * (isNarrow ? 75 : 130);
 
-        let dx;
-        let dy;
-        if (isHero) {
-          dx = (Math.random() - 0.5) * 70;
-          dy = -36 - Math.random() * 64;
-        } else {
-          const angle = ((i - 1) / (count - 1)) * Math.PI * 2 + (Math.random() - 0.5) * 0.55;
-          const dist = 0.42 + Math.random() * 0.58;
-          dx = Math.cos(angle) * maxRX * dist;
-          dy = Math.sin(angle) * maxRY * dist - 55;
+        const padX = Math.min(size * 0.42, vw * 0.14);
+        const padY = Math.min(size * 0.42, vh * 0.14);
+        let rx = vw / 2;
+        let ry = vh / 2;
+        for (let attempt = 0; attempt < 8; attempt++) {
+          const candX = padX + Math.random() * Math.max(40, vw - padX * 2);
+          const candY = padY + Math.random() * Math.max(40, vh - padY * 2);
+          const tooClose = placed.some((p) => Math.hypot(candX - p.x, candY - p.y) < minDist);
+          rx = candX;
+          ry = candY;
+          if (!tooClose) break;
         }
+        placed.push({ x: rx, y: ry });
 
-        const margin = Math.min(size * 0.38, 110);
-        const tx = Math.max(margin, Math.min(vw - margin, ox + dx));
-        const ty = Math.max(margin, Math.min(vh - margin, oy + dy));
-        const r0 = (Math.random() - 0.5) * 28;
-        const r1 = r0 + (Math.random() - 0.5) * 32;
-        const r2 = r1 + (Math.random() - 0.5) * 16;
-        const sPop = isHero ? 1.42 : 1.24 + Math.random() * 0.24;
-        const sLand = isHero ? 1.08 : 0.94 + Math.random() * 0.18;
-        const delay = i * 28;
-        const dur = (isHero ? 2500 : 2150) + Math.floor(Math.random() * 420);
+        const baseRot = (Math.random() - 0.5) * 44;
+        const r0 = baseRot + (Math.random() - 0.5) * 18;
+        const r1 = baseRot + (Math.random() - 0.5) * 8;
+        const r2 = baseRot;
+        const sPop = isHero ? 1.42 : 1.28 + Math.random() * 0.22;
+        const sLand = isHero ? 1.08 : 0.96 + Math.random() * 0.16;
+        const delay = i * 55;
+        const dur = (isHero ? 2450 : 2100) + Math.floor(Math.random() * 420);
 
-        st.style.left = `${ox}px`;
-        st.style.top = `${oy}px`;
+        st.style.left = `${Math.round(rx)}px`;
+        st.style.top = `${Math.round(ry)}px`;
         st.style.setProperty("--stamp-size", `${Math.round(size)}px`);
-        st.style.setProperty("--dx", `${Math.round(tx - ox)}px`);
-        st.style.setProperty("--dy", `${Math.round(ty - oy)}px`);
         st.style.setProperty("--r0", `${r0.toFixed(1)}deg`);
         st.style.setProperty("--r1", `${r1.toFixed(1)}deg`);
         st.style.setProperty("--r2", `${r2.toFixed(1)}deg`);
@@ -926,7 +918,7 @@
     stampBtn.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        triggerStampBurst(null);
+        triggerStampBurst();
       }
     });
   }
