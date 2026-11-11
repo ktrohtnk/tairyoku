@@ -4,6 +4,7 @@ import html as html_lib
 
 ROOT_DIR = "/Users/fds_2023_1/.gemini/antigravity/scratch/tairyoku-creative-team"
 DATA_PATH = os.path.join(ROOT_DIR, "site_data.json")
+SITE_ORIGIN = "https://tairyoku.jp"
 
 with open(DATA_PATH, "r", encoding="utf-8") as f:
     SITE_DATA = json.load(f)
@@ -1937,9 +1938,25 @@ APP_JS = r"""/* ================================================================
 })();
 """
 
-def render_page_html(title="TAIRYOKU — Creative Team (体力)", initial_project_id=None, initial_filter="all", initial_scroll=None, prefix="."):
+def render_page_html(
+    title="TAIRYOKU — Creative Team (体力)",
+    initial_project_id=None,
+    initial_filter="all",
+    initial_scroll=None,
+    prefix=".",
+    canonical_path="/",
+    og_image="/assets/tairyoku-logo.png",
+    description=None,
+):
     projects = SITE_DATA["projects"]
     team = SITE_DATA["team"]
+
+    canonical_url = f"{SITE_ORIGIN}{canonical_path}"
+    og_image_url = og_image if og_image.startswith("http") else f"{SITE_ORIGIN}{og_image if og_image.startswith('/') else '/' + og_image}"
+    meta_desc = description or (
+        "TAIRYOKU (体力) — Creative team based in Fukuoka, Japan. "
+        "ZINEs, clothing, printed matter, exhibitions and visual artwork."
+    )
 
     def p_url(rel):
         return f"{prefix}{rel}" if rel.startswith("/") else f"{prefix}/{rel}"
@@ -2022,7 +2039,18 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>{html_lib.escape(title)}</title>
-  <meta name="description" content="TAIRYOKU (体力) — Creative team based in Fukuoka, Japan. ZINEs, clothing, printed matter, exhibitions and visual artwork.">
+  <meta name="description" content="{html_lib.escape(meta_desc)}">
+  <link rel="canonical" href="{html_lib.escape(canonical_url)}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TAIRYOKU (体力)">
+  <meta property="og:title" content="{html_lib.escape(title)}">
+  <meta property="og:description" content="{html_lib.escape(meta_desc)}">
+  <meta property="og:url" content="{html_lib.escape(canonical_url)}">
+  <meta property="og:image" content="{html_lib.escape(og_image_url)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{html_lib.escape(title)}">
+  <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
+  <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
   <link rel="stylesheet" href="{p_url('/styles.css')}?v=6">
 </head>
@@ -2263,8 +2291,9 @@ def main():
     with open(os.path.join(ROOT_DIR, "app.js"), "w", encoding="utf-8") as f:
         f.write(APP_JS)
 
+    sitemap_paths = ["/"]
     with open(os.path.join(ROOT_DIR, "index.html"), "w", encoding="utf-8") as f:
-        f.write(render_page_html(prefix="."))
+        f.write(render_page_html(prefix=".", canonical_path="/"))
 
     section_pages = [
         ("works.html", "Works — TAIRYOKU", None, "works", None),
@@ -2274,15 +2303,53 @@ def main():
         ("contact.html", "Contact — TAIRYOKU", None, "all", "contact-section"),
     ]
     for filename, title, pid, flt, scroll_id in section_pages:
+        clean_path = "/" + filename[:-5]
+        sitemap_paths.append(clean_path)
         with open(os.path.join(ROOT_DIR, filename), "w", encoding="utf-8") as f:
-            f.write(render_page_html(title=title, initial_project_id=pid, initial_filter=flt, initial_scroll=scroll_id, prefix="."))
+            f.write(render_page_html(
+                title=title,
+                initial_project_id=pid,
+                initial_filter=flt,
+                initial_scroll=scroll_id,
+                prefix=".",
+                canonical_path=clean_path,
+            ))
 
     for p in SITE_DATA["projects"]:
         rel_path = p["url"].lstrip("/")
+        clean_path = p["url"][:-5] if p["url"].endswith(".html") else p["url"]
+        sitemap_paths.append(clean_path)
+        og_img = p["photos"][0]["src"] if p["photos"] else "/assets/tairyoku-logo.png"
+        desc_text = p["description"][0] if p["description"] else f"{p['title']} — {p['category_label']} ({p['year']}) / TAIRYOKU (体力)"
         full_path = os.path.join(ROOT_DIR, rel_path)
         os.makedirs(os.path.dirname(full_path), exist_ok=True)
         with open(full_path, "w", encoding="utf-8") as f:
-            f.write(render_page_html(title=f"{p['title']} — TAIRYOKU", initial_project_id=p["id"], initial_filter="all", prefix=".."))
+            f.write(render_page_html(
+                title=f"{p['title']} — TAIRYOKU",
+                initial_project_id=p["id"],
+                initial_filter="all",
+                prefix="..",
+                canonical_path=clean_path,
+                og_image=og_img,
+                description=desc_text,
+            ))
+
+    robots_txt = f"User-agent: *\nAllow: /\n\nSitemap: {SITE_ORIGIN}/sitemap.xml\n"
+    with open(os.path.join(ROOT_DIR, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write(robots_txt)
+
+    url_entries = "\n".join(
+        f"  <url><loc>{html_lib.escape(SITE_ORIGIN + path)}</loc></url>"
+        for path in sitemap_paths
+    )
+    sitemap_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{url_entries}\n"
+        "</urlset>\n"
+    )
+    with open(os.path.join(ROOT_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write(sitemap_xml)
 
     print("Successfully built relative-path compatible TAIRYOKU site.")
 

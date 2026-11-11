@@ -28,7 +28,9 @@ Fukuoka-based creative team **TAIRYOKU (体力)** official archive & portfolio w
    python3 build_site.py
    ```
 
-## Vercel への公開手順
+## Vercel への公開 & 独自ドメイン (`tairyoku.jp`) 設定手順
 1. このフォルダを GitHub リポジトリに Push する
 2. [Vercel](https://vercel.com/) で **Add New... → Project** から該当リポジトリを選択
-3. Framework Preset は **Other**（ビルドコマンド不要・そのまま静的配信）のまま **Deploy** をクリックするだけで公開完了します。
+3. Framework Preset は **Other**（ビルドコマンド不要・そのまま静的配信）のまま **Deploy** をクリックします。
+4. デプロイ後、Vercel の **Project → Settings → Domains** から `tairyoku.jp` と `www.tairyoku.jp` を追加し、表示される DNS レコード（A / CNAME または Vercel Nameservers）をドメイン管理画面に設定します。
+5. 本リポジトリ内の `canonical` / OGP / `sitemap.xml` / `robots.txt` は `https://tairyoku.jp` 前提で `build_site.py` から生成されています。
