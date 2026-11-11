@@ -380,14 +380,6 @@ html[data-color="color"] .wall-tile img {
   filter: none;
 }
 
-/* If user locks all-mono mode */
-html[data-color="mono"] .wall-tile img,
-html[data-color="mono"] .wall-tile:hover img,
-html[data-color="mono"] .wall-tile.is-awake img,
-html[data-color="mono"] .wall-tile.is-project-match img {
-  filter: url(#tairyoku-duotone) contrast(1.08);
-}
-
 /* Dim non-matching tiles when hovering a project in the index list */
 .wall-grid.has-project-focus .wall-tile:not(.is-project-match) {
   opacity: 0.25;
@@ -2288,7 +2280,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=9">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=10">
 </head>
 <body>
 {build_svg_filter()}
@@ -2347,7 +2339,6 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
       <span class="ctrl-label">color:</span>
       <button type="button" class="raw-btn" data-set-color="hover" aria-pressed="true">mono→hover-color</button>
       <button type="button" class="raw-btn" data-set-color="color" aria-pressed="false">all-color</button>
-      <button type="button" class="raw-btn" data-set-color="mono" aria-pressed="false">all-mono</button>
     </div>
 
     <div class="ctrl-group">
@@ -2532,7 +2523,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=9"></script></script>
+<script src="{p_url('/app.js')}?v=10"></script></script>
 </body>
 </html>
 """
