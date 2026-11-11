@@ -685,21 +685,43 @@ html[data-view="table"] .table-stage { display: block; }
 
 .stamp-zone {
   margin-top: 16px;
-  padding: 10px;
+  padding: 12px 14px;
   border: 1px dashed var(--ink);
   font-family: var(--font-mono);
   font-size: 11px;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
   user-select: none;
+  background: var(--bg);
+  transition: transform 0.16s cubic-bezier(0.2, 1.6, 0.4, 1), background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stamp-zone:hover {
+  background: var(--ink-soft);
+  border-style: solid;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.stamp-zone:active,
+.stamp-zone.is-popping {
+  transform: scale(0.94);
 }
 
 .stamp-zone img {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   filter: url(#tairyoku-duotone);
+  transition: transform 0.24s cubic-bezier(0.18, 1.8, 0.35, 1);
+}
+
+.stamp-zone:hover img {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+.stamp-zone.is-popping img {
+  transform: scale(1.36) rotate(8deg);
 }
 
 /* ==========================================================================
@@ -870,16 +892,40 @@ html[data-view="table"] .table-stage { display: block; }
   white-space: nowrap;
 }
 
-/* Stamp clones created on click */
+/* Stamp clones created on click — large radial pop-out burst */
 .ink-stamp {
   position: fixed;
-  width: 56px;
-  height: 56px;
+  width: var(--stamp-size, 180px);
+  height: var(--stamp-size, 180px);
   pointer-events: none;
-  z-index: 45;
+  z-index: 95;
   filter: url(#tairyoku-duotone);
-  opacity: 0.85;
-  transition: opacity 1.8s ease, transform 1.8s ease;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  animation: tairyoku-stamp-pop var(--stamp-dur, 2400ms) cubic-bezier(0.16, 1, 0.3, 1) var(--stamp-delay, 0ms) both;
+}
+
+@keyframes tairyoku-stamp-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(0px, 0px) rotate(var(--r0, 0deg)) scale(0.12);
+  }
+  16% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate(calc(var(--dx, 0px) * 0.65), calc(var(--dy, 0px) * 0.65)) rotate(var(--r1, 8deg)) scale(var(--s-pop, 1.38));
+  }
+  34% {
+    opacity: 0.94;
+    transform: translate(-50%, -50%) translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r2, -4deg)) scale(var(--s-land, 1));
+  }
+  76% {
+    opacity: 0.88;
+    transform: translate(-50%, -50%) translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r2, -4deg)) scale(var(--s-land, 1));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(var(--dx, 0px), calc(var(--dy, 0px) + 16px)) rotate(var(--r2, -4deg)) scale(calc(var(--s-land, 1) * 0.96));
+  }
 }
 
 @media (max-width: 1120px) {
@@ -1806,23 +1852,82 @@ APP_JS = r"""/* ================================================================
      -------------------------------------------------------------------------- */
   const stampBtn = document.getElementById("stamp-trigger");
   if (stampBtn) {
-    stampBtn.addEventListener("click", (e) => {
-      for (let i = 0; i < 4; i++) {
+    const triggerStampBurst = (e) => {
+      const vw = window.innerWidth || 1200;
+      const vh = window.innerHeight || 800;
+      const isNarrow = vw < 640;
+      const logoEl = stampBtn.querySelector("img") || stampBtn;
+      const rect = logoEl.getBoundingClientRect ? logoEl.getBoundingClientRect() : null;
+      const fallbackX = rect ? rect.left + rect.width / 2 : vw / 2;
+      const fallbackY = rect ? rect.top + rect.height / 2 : vh / 2;
+      const ox = e && e.clientX > 0 ? e.clientX : fallbackX;
+      const oy = e && e.clientY > 0 ? e.clientY : fallbackY;
+
+      stampBtn.classList.remove("is-popping");
+      if (stampBtn.offsetWidth >= 0) stampBtn.classList.add("is-popping");
+      setTimeout(() => stampBtn.classList.remove("is-popping"), 220);
+
+      const count = 7;
+      const maxRX = Math.min(vw * 0.42, 420);
+      const maxRY = Math.min(vh * 0.36, 300);
+
+      for (let i = 0; i < count; i++) {
         const st = document.createElement("img");
         st.src = resolvePath("/assets/tairyoku-logo.png");
+        st.alt = "";
         st.className = "ink-stamp";
-        const rx = (e.clientX || window.innerWidth / 2) + (Math.random() - 0.5) * 260;
-        const ry = (e.clientY || window.innerHeight / 2) + (Math.random() - 0.5) * 180;
-        const deg = (Math.random() - 0.5) * 50;
-        st.style.left = `${rx - 28}px`;
-        st.style.top = `${ry - 28}px`;
-        st.style.transform = `rotate(${deg}deg) scale(1)`;
+
+        const isHero = i === 0;
+        const size = isHero
+          ? (isNarrow ? 185 : 265) + Math.random() * 65
+          : (isNarrow ? 115 : 150) + Math.random() * (isNarrow ? 75 : 120);
+
+        let dx;
+        let dy;
+        if (isHero) {
+          dx = (Math.random() - 0.5) * 70;
+          dy = -36 - Math.random() * 64;
+        } else {
+          const angle = ((i - 1) / (count - 1)) * Math.PI * 2 + (Math.random() - 0.5) * 0.55;
+          const dist = 0.42 + Math.random() * 0.58;
+          dx = Math.cos(angle) * maxRX * dist;
+          dy = Math.sin(angle) * maxRY * dist - 55;
+        }
+
+        const margin = Math.min(size * 0.38, 110);
+        const tx = Math.max(margin, Math.min(vw - margin, ox + dx));
+        const ty = Math.max(margin, Math.min(vh - margin, oy + dy));
+        const r0 = (Math.random() - 0.5) * 28;
+        const r1 = r0 + (Math.random() - 0.5) * 32;
+        const r2 = r1 + (Math.random() - 0.5) * 16;
+        const sPop = isHero ? 1.42 : 1.24 + Math.random() * 0.24;
+        const sLand = isHero ? 1.08 : 0.94 + Math.random() * 0.18;
+        const delay = i * 28;
+        const dur = (isHero ? 2500 : 2150) + Math.floor(Math.random() * 420);
+
+        st.style.left = `${ox}px`;
+        st.style.top = `${oy}px`;
+        st.style.setProperty("--stamp-size", `${Math.round(size)}px`);
+        st.style.setProperty("--dx", `${Math.round(tx - ox)}px`);
+        st.style.setProperty("--dy", `${Math.round(ty - oy)}px`);
+        st.style.setProperty("--r0", `${r0.toFixed(1)}deg`);
+        st.style.setProperty("--r1", `${r1.toFixed(1)}deg`);
+        st.style.setProperty("--r2", `${r2.toFixed(1)}deg`);
+        st.style.setProperty("--s-pop", sPop.toFixed(2));
+        st.style.setProperty("--s-land", sLand.toFixed(2));
+        st.style.setProperty("--stamp-delay", `${delay}ms`);
+        st.style.setProperty("--stamp-dur", `${dur}ms`);
+
         document.body.appendChild(st);
-        requestAnimationFrame(() => {
-          st.style.opacity = "0";
-          st.style.transform = `rotate(${deg + 18}deg) scale(1.35) translateY(-18px)`;
-        });
-        setTimeout(() => st.remove(), 1850);
+        setTimeout(() => st.remove(), delay + dur + 100);
+      }
+    };
+
+    stampBtn.addEventListener("click", triggerStampBurst);
+    stampBtn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        triggerStampBurst(null);
       }
     });
   }
@@ -1927,7 +2032,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <title>{html_lib.escape(title)}</title>
   <meta name="description" content="TAIRYOKU (体力) — Creative team based in Fukuoka, Japan. ZINEs, clothing, printed matter, exhibitions and visual artwork.">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=4">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=5">
 </head>
 <body>
 {build_svg_filter()}
@@ -2155,7 +2260,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=4"></script>
+<script src="{p_url('/app.js')}?v=5"></script>
 </body>
 </html>
 """

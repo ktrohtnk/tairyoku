@@ -675,21 +675,43 @@ html[data-view="table"] .table-stage { display: block; }
 
 .stamp-zone {
   margin-top: 16px;
-  padding: 10px;
+  padding: 12px 14px;
   border: 1px dashed var(--ink);
   font-family: var(--font-mono);
   font-size: 11px;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
   user-select: none;
+  background: var(--bg);
+  transition: transform 0.16s cubic-bezier(0.2, 1.6, 0.4, 1), background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stamp-zone:hover {
+  background: var(--ink-soft);
+  border-style: solid;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.stamp-zone:active,
+.stamp-zone.is-popping {
+  transform: scale(0.94);
 }
 
 .stamp-zone img {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   filter: url(#tairyoku-duotone);
+  transition: transform 0.24s cubic-bezier(0.18, 1.8, 0.35, 1);
+}
+
+.stamp-zone:hover img {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+.stamp-zone.is-popping img {
+  transform: scale(1.36) rotate(8deg);
 }
 
 /* ==========================================================================
@@ -860,16 +882,40 @@ html[data-view="table"] .table-stage { display: block; }
   white-space: nowrap;
 }
 
-/* Stamp clones created on click */
+/* Stamp clones created on click — large radial pop-out burst */
 .ink-stamp {
   position: fixed;
-  width: 56px;
-  height: 56px;
+  width: var(--stamp-size, 180px);
+  height: var(--stamp-size, 180px);
   pointer-events: none;
-  z-index: 45;
+  z-index: 95;
   filter: url(#tairyoku-duotone);
-  opacity: 0.85;
-  transition: opacity 1.8s ease, transform 1.8s ease;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  animation: tairyoku-stamp-pop var(--stamp-dur, 2400ms) cubic-bezier(0.16, 1, 0.3, 1) var(--stamp-delay, 0ms) both;
+}
+
+@keyframes tairyoku-stamp-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(0px, 0px) rotate(var(--r0, 0deg)) scale(0.12);
+  }
+  16% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate(calc(var(--dx, 0px) * 0.65), calc(var(--dy, 0px) * 0.65)) rotate(var(--r1, 8deg)) scale(var(--s-pop, 1.38));
+  }
+  34% {
+    opacity: 0.94;
+    transform: translate(-50%, -50%) translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r2, -4deg)) scale(var(--s-land, 1));
+  }
+  76% {
+    opacity: 0.88;
+    transform: translate(-50%, -50%) translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r2, -4deg)) scale(var(--s-land, 1));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(var(--dx, 0px), calc(var(--dy, 0px) + 16px)) rotate(var(--r2, -4deg)) scale(calc(var(--s-land, 1) * 0.96));
+  }
 }
 
 @media (max-width: 1120px) {
