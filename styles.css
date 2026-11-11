@@ -714,6 +714,44 @@ html[data-view="table"] .table-stage { display: block; }
   transform: scale(1.36) rotate(8deg);
 }
 
+.contact-split {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(230px, 320px);
+  gap: 28px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-table {
+  max-width: 560px;
+}
+
+.contact-video-frame {
+  margin: 0;
+  width: 100%;
+  max-width: 320px;
+  justify-self: end;
+  border: 1px solid var(--ink);
+  background: var(--bg);
+  overflow: hidden;
+  line-height: 0;
+}
+
+.contact-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: contrast(1.16) brightness(1.05) url(#tairyoku-duotone);
+  transition: filter 0.28s ease;
+}
+
+html[data-color="color"] .contact-video,
+html[data-color="hover"] .contact-video-frame:hover .contact-video {
+  filter: none;
+}
+
 /* ==========================================================================
    PROJECT DETAIL OVERLAY / MODAL SHEET
    ========================================================================== */
@@ -942,5 +980,14 @@ html[data-view="table"] .table-stage { display: block; }
   }
   .cursor-tag {
     display: none;
+  }
+  .contact-split {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .contact-video-frame {
+    justify-self: center;
+    max-width: 300px;
+    margin-top: 4px;
   }
 }

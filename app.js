@@ -923,6 +923,12 @@
     });
   }
 
+  document.querySelectorAll("video[autoplay]").forEach((v) => {
+    v.muted = true;
+    const p = v.play && v.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  });
+
   if (window.INITIAL_PROJECT_ID) {
     openDetailSheet(window.INITIAL_PROJECT_ID, 0, false);
   }

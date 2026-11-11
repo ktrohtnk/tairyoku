@@ -725,6 +725,44 @@ html[data-view="table"] .table-stage { display: block; }
   transform: scale(1.36) rotate(8deg);
 }
 
+.contact-split {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(230px, 320px);
+  gap: 28px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-table {
+  max-width: 560px;
+}
+
+.contact-video-frame {
+  margin: 0;
+  width: 100%;
+  max-width: 320px;
+  justify-self: end;
+  border: 1px solid var(--ink);
+  background: var(--bg);
+  overflow: hidden;
+  line-height: 0;
+}
+
+.contact-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: contrast(1.16) brightness(1.05) url(#tairyoku-duotone);
+  transition: filter 0.28s ease;
+}
+
+html[data-color="color"] .contact-video,
+html[data-color="hover"] .contact-video-frame:hover .contact-video {
+  filter: none;
+}
+
 /* ==========================================================================
    PROJECT DETAIL OVERLAY / MODAL SHEET
    ========================================================================== */
@@ -953,6 +991,15 @@ html[data-view="table"] .table-stage { display: block; }
   }
   .cursor-tag {
     display: none;
+  }
+  .contact-split {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .contact-video-frame {
+    justify-self: center;
+    max-width: 300px;
+    margin-top: 4px;
   }
 }
 """
@@ -1925,6 +1972,12 @@ APP_JS = r"""/* ================================================================
     });
   }
 
+  document.querySelectorAll("video[autoplay]").forEach((v) => {
+    v.muted = true;
+    const p = v.play && v.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  });
+
   if (window.INITIAL_PROJECT_ID) {
     openDetailSheet(window.INITIAL_PROJECT_ID, 0, false);
   }
@@ -2052,7 +2105,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=6">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=7">
 </head>
 <body>
 {build_svg_filter()}
@@ -2214,25 +2267,31 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 
   <!-- CONTACT SECTION (RAW HTML) -->
   <section class="raw-section" id="contact-section">
-    <div class="raw-section-inner">
-      <h2 class="raw-h1">CONTACT / LINKS</h2>
-      <p class="raw-p">For exhibitions, collaborations and commissions.<br>展示、コラボレーション、制作のご相談はメールまたはInstagramのDMで受け付けています。</p>
-      <table class="raw-table" style="max-width:560px">
-        <tbody>
-          <tr>
-            <th>EMAIL</th>
-            <td><a href="mailto:{team["email"]}">{team["email"]} ↗</a></td>
-          </tr>
-          <tr>
-            <th>INSTAGRAM</th>
-            <td><a href="{team["instagram"]}" target="_blank" rel="noreferrer">{team["instagram_handle"]} ↗</a></td>
-          </tr>
-          <tr>
-            <th>ONLINE SHOP</th>
-            <td><a href="{team["shop"]}" target="_blank" rel="noreferrer">TAIRYOKU BASE SHOP ↗</a></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="raw-section-inner contact-split">
+      <div class="contact-info-col">
+        <h2 class="raw-h1">CONTACT / LINKS</h2>
+        <p class="raw-p">For exhibitions, collaborations and commissions.<br>展示、コラボレーション、制作のご相談はメールまたはInstagramのDMで受け付けています。</p>
+        <table class="raw-table contact-table">
+          <tbody>
+            <tr>
+              <th>EMAIL</th>
+              <td><a href="mailto:{team["email"]}">{team["email"]} ↗</a></td>
+            </tr>
+            <tr>
+              <th>INSTAGRAM</th>
+              <td><a href="{team["instagram"]}" target="_blank" rel="noreferrer">{team["instagram_handle"]} ↗</a></td>
+            </tr>
+            <tr>
+              <th>ONLINE SHOP</th>
+              <td><a href="{team["shop"]}" target="_blank" rel="noreferrer">TAIRYOKU BASE SHOP ↗</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="contact-video-frame">
+        <video class="contact-video" src="{p_url('/assets/contact-motion.mp4')}" autoplay loop muted playsinline preload="metadata" width="720" height="900"></video>
+      </figure>
     </div>
   </section>
 </main>
@@ -2280,7 +2339,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=6"></script>
+<script src="{p_url('/app.js')}?v=7"></script>
 </body>
 </html>
 """
