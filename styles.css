@@ -755,11 +755,11 @@ html[data-view="table"] .table-stage { display: block; }
 }
 
 .chronology-col-date {
-  width: 108px;
+  width: 162px;
 }
 
 .chronology-col-loc {
-  width: 34%;
+  width: 30%;
 }
 
 .chronology-note {

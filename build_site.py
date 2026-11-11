@@ -766,11 +766,11 @@ html[data-view="table"] .table-stage { display: block; }
 }
 
 .chronology-col-date {
-  width: 108px;
+  width: 162px;
 }
 
 .chronology-col-loc {
-  width: 34%;
+  width: 30%;
 }
 
 .chronology-note {
@@ -2238,6 +2238,13 @@ def render_page_html(
     def fmt_multiline(text):
         return html_lib.escape(text).replace("\n", "<br>")
 
+    def format_chronology_date(entry):
+        date_str = str(entry.get("date") or "").strip()
+        year_str = str(entry.get("year") or "").strip()
+        if year_str and date_str and year_str not in date_str:
+            return f"{year_str}.{date_str}"
+        return date_str or year_str
+
     history_rows_list = []
     for h in team["history"]:
         title_html = fmt_multiline(h["title"])
@@ -2246,7 +2253,7 @@ def render_page_html(
         note_html = f'<div class="chronology-note">{fmt_multiline(h["note"])}</div>' if h.get("note") else ""
         history_rows_list.append(
             f'<tr>'
-            f'<td class="chronology-date" style="font-family:var(--font-mono)">{fmt_multiline(h["date"])}</td>'
+            f'<td class="chronology-date" style="font-family:var(--font-mono)">{fmt_multiline(format_chronology_date(h))}</td>'
             f'<td class="chronology-title">{title_html}{note_html}</td>'
             f'<td class="chronology-loc">{fmt_multiline(h["place"])}</td>'
             f'</tr>'
@@ -2280,7 +2287,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=10">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=11">
 </head>
 <body>
 {build_svg_filter()}
@@ -2523,7 +2530,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=10"></script></script>
+<script src="{p_url('/app.js')}?v=11"></script>
 </body>
 </html>
 """
