@@ -964,8 +964,12 @@ APP_JS = r"""/* ================================================================
 
   function resolvePath(relPath) {
     if (!relPath) return "";
-    if (relPath.startsWith("http://") || relPath.startsWith("https://")) return relPath;
-    return PREFIX + (relPath.startsWith("/") ? relPath : "/" + relPath);
+    if (relPath.startsWith("http://") || relPath.startsWith("https://") || relPath.startsWith("data:")) return relPath;
+    const clean = relPath.replace(/^\.\//, "");
+    if (window.location && window.location.protocol !== "file:") {
+      return clean.startsWith("/") ? clean : "/" + clean;
+    }
+    return PREFIX + (clean.startsWith("/") ? clean : "/" + clean);
   }
 
   function escHtml(str) {
@@ -1678,6 +1682,8 @@ APP_JS = r"""/* ================================================================
     const p = projectsById[projectId];
     if (!p || !detailSheet) return;
 
+    preloadProjectPhotos(projectId);
+
     const codeEl = document.getElementById("detail-code");
     const titleEl = document.getElementById("detail-title");
     const specsBody = document.getElementById("detail-specs-body");
@@ -1711,7 +1717,7 @@ APP_JS = r"""/* ================================================================
         .map(
           (ph, idx) => `
           <figure class="detail-figure" id="detail-fig-${idx}">
-            <img src="${resolvePath(ph.src)}" alt="${escHtml(p.title)} — ${escHtml(ph.alt || idx + 1)}" loading="${idx < 2 ? "eager" : "lazy"}">
+            <img src="${resolvePath(ph.src)}" alt="${escHtml(p.title)} — ${escHtml(ph.alt || idx + 1)}" loading="eager" decoding="async">
             <figcaption class="detail-figcap">
               <span>[${String(idx + 1).padStart(2, "0")}/${String(p.photos.length).padStart(2, "0")}]</span>
               <span>${escHtml(ph.alt || p.title)}</span>
@@ -1921,7 +1927,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <title>{html_lib.escape(title)}</title>
   <meta name="description" content="TAIRYOKU (体力) — Creative team based in Fukuoka, Japan. ZINEs, clothing, printed matter, exhibitions and visual artwork.">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=3">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=4">
 </head>
 <body>
 {build_svg_filter()}
@@ -2149,7 +2155,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=3"></script>
+<script src="{p_url('/app.js')}?v=4"></script>
 </body>
 </html>
 """

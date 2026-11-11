@@ -9,8 +9,12 @@
 
   function resolvePath(relPath) {
     if (!relPath) return "";
-    if (relPath.startsWith("http://") || relPath.startsWith("https://")) return relPath;
-    return PREFIX + (relPath.startsWith("/") ? relPath : "/" + relPath);
+    if (relPath.startsWith("http://") || relPath.startsWith("https://") || relPath.startsWith("data:")) return relPath;
+    const clean = relPath.replace(/^\.\//, "");
+    if (window.location && window.location.protocol !== "file:") {
+      return clean.startsWith("/") ? clean : "/" + clean;
+    }
+    return PREFIX + (clean.startsWith("/") ? clean : "/" + clean);
   }
 
   function escHtml(str) {
@@ -723,6 +727,8 @@
     const p = projectsById[projectId];
     if (!p || !detailSheet) return;
 
+    preloadProjectPhotos(projectId);
+
     const codeEl = document.getElementById("detail-code");
     const titleEl = document.getElementById("detail-title");
     const specsBody = document.getElementById("detail-specs-body");
@@ -756,7 +762,7 @@
         .map(
           (ph, idx) => `
           <figure class="detail-figure" id="detail-fig-${idx}">
-            <img src="${resolvePath(ph.src)}" alt="${escHtml(p.title)} — ${escHtml(ph.alt || idx + 1)}" loading="${idx < 2 ? "eager" : "lazy"}">
+            <img src="${resolvePath(ph.src)}" alt="${escHtml(p.title)} — ${escHtml(ph.alt || idx + 1)}" loading="eager" decoding="async">
             <figcaption class="detail-figcap">
               <span>[${String(idx + 1).padStart(2, "0")}/${String(p.photos.length).padStart(2, "0")}]</span>
               <span>${escHtml(ph.alt || p.title)}</span>
