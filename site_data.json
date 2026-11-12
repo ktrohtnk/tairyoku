@@ -14,19 +14,25 @@
     "shop": "https://tairyoku.base.shop/",
     "members": [
       {
+        "id": "arata",
         "name": "Arata Fukuyama",
         "handle": "@fukuyama_arata",
-        "url": "https://www.instagram.com/fukuyama_arata/"
+        "url": "https://www.instagram.com/fukuyama_arata/",
+        "svg": "/assets/members/arata.svg"
       },
       {
+        "id": "kentaro",
         "name": "Kentaro Hatanaka",
         "handle": "@kntro",
-        "url": "https://www.instagram.com/kntro/"
+        "url": "https://www.instagram.com/kntro/",
+        "svg": "/assets/members/kentaro.svg"
       },
       {
+        "id": "haru",
         "name": "Haruna Murayama",
         "handle": "@h.r.u____",
-        "url": "https://www.instagram.com/h.r.u____/"
+        "url": "https://www.instagram.com/h.r.u____/",
+        "svg": "/assets/members/haru.svg"
       }
     ],
     "history": [

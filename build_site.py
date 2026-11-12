@@ -642,6 +642,81 @@ html[data-view="table"] .table-stage { display: block; }
   background: var(--bg);
 }
 
+#about-section {
+  overflow: hidden;
+}
+
+.about-bg-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#about-section > .raw-section-inner {
+  position: relative;
+  z-index: 1;
+}
+
+#about-section .raw-h1,
+#about-section .raw-lead,
+#about-section .raw-p {
+  text-shadow: 0 0 10px var(--bg), 0 0 4px var(--bg);
+}
+
+.members-table tbody tr.member-row {
+  background: rgba(var(--bg-rgb), 0.72);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.members-table tbody tr.member-row.is-active {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.members-table tbody tr.member-row.is-active a {
+  color: var(--bg);
+}
+
+@media (hover: none) {
+  .members-table tbody tr.member-row:not(.is-active):hover {
+    background: rgba(var(--bg-rgb), 0.72);
+    color: var(--ink);
+  }
+  .members-table tbody tr.member-row:not(.is-active):hover a {
+    color: var(--ink);
+  }
+}
+
+.about-bg-portrait {
+  position: absolute;
+  width: var(--portrait-size, 400px);
+  height: var(--portrait-size, 400px);
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: url(#tairyoku-duotone);
+  transform-origin: center center;
+  will-change: transform, opacity;
+  animation: member-bg-pop 520ms cubic-bezier(0.16, 1, 0.3, 1) var(--portrait-delay, 0ms) both;
+}
+
+@keyframes member-bg-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--r-start, -10deg)) scale(0.35);
+  }
+  65% {
+    opacity: var(--portrait-opacity, 0.22);
+    transform: translate(-50%, -50%) rotate(var(--r-end, -4deg)) scale(1.06);
+  }
+  100% {
+    opacity: var(--portrait-opacity, 0.22);
+    transform: translate(-50%, -50%) rotate(var(--r-end, -4deg)) scale(1);
+  }
+}
+
 .raw-section-inner {
   max-width: 1080px;
 }
@@ -700,7 +775,7 @@ html[data-view="table"] .table-stage { display: block; }
   overflow-y: auto;
   overflow-x: hidden;
   border: 1px solid var(--ink);
-  background: var(--bg);
+  background: rgba(var(--bg-rgb), 0.72);
   scrollbar-width: thin;
   scrollbar-color: var(--ink) transparent;
 }
@@ -791,7 +866,7 @@ html[data-view="table"] .table-stage { display: block; }
   gap: 12px;
   cursor: pointer;
   user-select: none;
-  background: var(--bg);
+  background: rgba(var(--bg-rgb), 0.82);
   transition: transform 0.16s cubic-bezier(0.2, 1.6, 0.4, 1), background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -2140,6 +2215,97 @@ APP_JS = r"""/* ================================================================
     syncChronologyToggle();
   }
 
+  /* --------------------------------------------------------------------------
+     10. CREATORS / MEMBERS PROFILE PORTRAIT BACKGROUND
+     -------------------------------------------------------------------------- */
+  const aboutBgStage = document.getElementById("about-bg-stage");
+  const memberRows = Array.from(document.querySelectorAll(".member-row"));
+  if (DATA.team && Array.isArray(DATA.team.members)) {
+    DATA.team.members.forEach((m) => {
+      if (m.svg) {
+        const pre = new Image();
+        pre.src = resolvePath(m.svg);
+      }
+    });
+  }
+  if (aboutBgStage && memberRows.length > 0) {
+    let activeMemberId = null;
+
+    const renderMemberBackground = (svgRelPath) => {
+      aboutBgStage.innerHTML = "";
+      if (!svgRelPath) return;
+      const resolvedSvg = resolvePath(svgRelPath);
+      const vw = window.innerWidth || 1200;
+      const isNarrow = vw <= 860;
+      const presets = isNarrow
+        ? [
+            { x: 52, y: 46, size: "clamp(250px, 72vw, 350px)", op: 0.24, rot: -4, delay: 0 },
+            { x: 76, y: 17, size: "clamp(185px, 52vw, 255px)", op: 0.16, rot: 8, delay: 65 },
+            { x: 26, y: 80, size: "clamp(175px, 48vw, 235px)", op: 0.15, rot: -9, delay: 130 },
+          ]
+        : [
+            { x: 23, y: 56, size: "clamp(280px, 34vw, 440px)", op: 0.24, rot: -5, delay: 0 },
+            { x: 74, y: 38, size: "clamp(300px, 38vw, 490px)", op: 0.18, rot: 7, delay: 65 },
+            { x: 48, y: 82, size: "clamp(200px, 25vw, 310px)", op: 0.15, rot: -10, delay: 130 },
+          ];
+
+      presets.forEach((slot) => {
+        const img = document.createElement("img");
+        img.src = resolvedSvg;
+        img.alt = "";
+        img.className = "about-bg-portrait";
+        const jx = (Math.random() - 0.5) * 4;
+        const jy = (Math.random() - 0.5) * 4;
+        const rEnd = slot.rot + (Math.random() - 0.5) * 6;
+        const rStart = rEnd + (Math.random() < 0.5 ? -12 : 12);
+        img.style.left = `${(slot.x + jx).toFixed(1)}%`;
+        img.style.top = `${(slot.y + jy).toFixed(1)}%`;
+        img.style.setProperty("--portrait-size", slot.size);
+        img.style.setProperty("--portrait-opacity", String(slot.op));
+        img.style.setProperty("--r-start", `${rStart.toFixed(1)}deg`);
+        img.style.setProperty("--r-end", `${rEnd.toFixed(1)}deg`);
+        img.style.setProperty("--portrait-delay", `${slot.delay}ms`);
+        aboutBgStage.appendChild(img);
+      });
+    };
+
+    const selectMember = (row, forceActivate = false) => {
+      const mId = row.dataset.memberId || "";
+      const mSvg = row.dataset.memberSvg || "";
+      if (!forceActivate && activeMemberId === mId) {
+        activeMemberId = null;
+        memberRows.forEach((r) => {
+          r.classList.remove("is-active");
+          r.setAttribute("aria-pressed", "false");
+        });
+        renderMemberBackground(null);
+        return;
+      }
+      activeMemberId = mId;
+      memberRows.forEach((r) => {
+        const isMatch = r === row;
+        r.classList.toggle("is-active", isMatch);
+        r.setAttribute("aria-pressed", String(isMatch));
+      });
+      renderMemberBackground(mSvg);
+    };
+
+    memberRows.forEach((row) => {
+      row.addEventListener("click", (e) => {
+        const clickedLink = e && e.target && typeof e.target.closest === "function" ? e.target.closest("a") : null;
+        selectMember(row, Boolean(clickedLink));
+      });
+      row.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          const focusedLink = e && e.target && typeof e.target.closest === "function" ? e.target.closest("a") : null;
+          if (focusedLink) return;
+          e.preventDefault();
+          selectMember(row, false);
+        }
+      });
+    });
+  }
+
   if (window.INITIAL_PROJECT_ID) {
     openDetailSheet(window.INITIAL_PROJECT_ID, 0, false);
   }
@@ -2231,7 +2397,10 @@ def render_page_html(
         )
 
     members_rows = "".join(
-        f'<tr><td>{html_lib.escape(m["name"])}</td><td><a href="{m["url"]}" target="_blank" rel="noreferrer">{html_lib.escape(m["handle"])} ↗</a></td></tr>'
+        f'<tr class="member-row" data-member-id="{html_lib.escape(m.get("id", ""))}" data-member-svg="{html_lib.escape(m.get("svg", ""))}" tabindex="0" role="button" aria-pressed="false">'
+        f'<td>{html_lib.escape(m["name"])}</td>'
+        f'<td><a href="{m["url"]}" target="_blank" rel="noreferrer">{html_lib.escape(m["handle"])} ↗</a></td>'
+        f'</tr>'
         for m in team["members"]
     )
 
@@ -2287,7 +2456,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=11">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=12">
 </head>
 <body>
 {build_svg_filter()}
@@ -2411,6 +2580,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 
   <!-- ABOUT & CREATORS SECTION (RAW HTML EDITORIAL) -->
   <section class="raw-section" id="about-section">
+    <div class="about-bg-stage" id="about-bg-stage" aria-hidden="true"></div>
     <div class="raw-section-inner">
       <h1 class="raw-h1">ABOUT / CREATORS — TAIRYOKU (体力)</h1>
       <p class="raw-lead">{html_lib.escape(team["lead_en"])}</p>
@@ -2420,7 +2590,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
       <div class="raw-grid-2">
         <div>
           <p style="font-family:var(--font-mono);font-size:11px;margin:0 0 6px;">CREATORS / MEMBERS:</p>
-          <table class="raw-table">
+          <table class="raw-table members-table" id="members-table">
             <thead>
               <tr><th>Name</th><th>Instagram</th></tr>
             </thead>
@@ -2530,7 +2700,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=11"></script>
+<script src="{p_url('/app.js')}?v=12"></script>
 </body>
 </html>
 """

@@ -631,6 +631,81 @@ html[data-view="table"] .table-stage { display: block; }
   background: var(--bg);
 }
 
+#about-section {
+  overflow: hidden;
+}
+
+.about-bg-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#about-section > .raw-section-inner {
+  position: relative;
+  z-index: 1;
+}
+
+#about-section .raw-h1,
+#about-section .raw-lead,
+#about-section .raw-p {
+  text-shadow: 0 0 10px var(--bg), 0 0 4px var(--bg);
+}
+
+.members-table tbody tr.member-row {
+  background: rgba(var(--bg-rgb), 0.72);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.members-table tbody tr.member-row.is-active {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.members-table tbody tr.member-row.is-active a {
+  color: var(--bg);
+}
+
+@media (hover: none) {
+  .members-table tbody tr.member-row:not(.is-active):hover {
+    background: rgba(var(--bg-rgb), 0.72);
+    color: var(--ink);
+  }
+  .members-table tbody tr.member-row:not(.is-active):hover a {
+    color: var(--ink);
+  }
+}
+
+.about-bg-portrait {
+  position: absolute;
+  width: var(--portrait-size, 400px);
+  height: var(--portrait-size, 400px);
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: url(#tairyoku-duotone);
+  transform-origin: center center;
+  will-change: transform, opacity;
+  animation: member-bg-pop 520ms cubic-bezier(0.16, 1, 0.3, 1) var(--portrait-delay, 0ms) both;
+}
+
+@keyframes member-bg-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--r-start, -10deg)) scale(0.35);
+  }
+  65% {
+    opacity: var(--portrait-opacity, 0.22);
+    transform: translate(-50%, -50%) rotate(var(--r-end, -4deg)) scale(1.06);
+  }
+  100% {
+    opacity: var(--portrait-opacity, 0.22);
+    transform: translate(-50%, -50%) rotate(var(--r-end, -4deg)) scale(1);
+  }
+}
+
 .raw-section-inner {
   max-width: 1080px;
 }
@@ -689,7 +764,7 @@ html[data-view="table"] .table-stage { display: block; }
   overflow-y: auto;
   overflow-x: hidden;
   border: 1px solid var(--ink);
-  background: var(--bg);
+  background: rgba(var(--bg-rgb), 0.72);
   scrollbar-width: thin;
   scrollbar-color: var(--ink) transparent;
 }
@@ -780,7 +855,7 @@ html[data-view="table"] .table-stage { display: block; }
   gap: 12px;
   cursor: pointer;
   user-select: none;
-  background: var(--bg);
+  background: rgba(var(--bg-rgb), 0.82);
   transition: transform 0.16s cubic-bezier(0.2, 1.6, 0.4, 1), background-color 0.15s ease, box-shadow 0.15s ease;
 }
 

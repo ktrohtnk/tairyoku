@@ -951,6 +951,97 @@
     syncChronologyToggle();
   }
 
+  /* --------------------------------------------------------------------------
+     10. CREATORS / MEMBERS PROFILE PORTRAIT BACKGROUND
+     -------------------------------------------------------------------------- */
+  const aboutBgStage = document.getElementById("about-bg-stage");
+  const memberRows = Array.from(document.querySelectorAll(".member-row"));
+  if (DATA.team && Array.isArray(DATA.team.members)) {
+    DATA.team.members.forEach((m) => {
+      if (m.svg) {
+        const pre = new Image();
+        pre.src = resolvePath(m.svg);
+      }
+    });
+  }
+  if (aboutBgStage && memberRows.length > 0) {
+    let activeMemberId = null;
+
+    const renderMemberBackground = (svgRelPath) => {
+      aboutBgStage.innerHTML = "";
+      if (!svgRelPath) return;
+      const resolvedSvg = resolvePath(svgRelPath);
+      const vw = window.innerWidth || 1200;
+      const isNarrow = vw <= 860;
+      const presets = isNarrow
+        ? [
+            { x: 52, y: 46, size: "clamp(250px, 72vw, 350px)", op: 0.24, rot: -4, delay: 0 },
+            { x: 76, y: 17, size: "clamp(185px, 52vw, 255px)", op: 0.16, rot: 8, delay: 65 },
+            { x: 26, y: 80, size: "clamp(175px, 48vw, 235px)", op: 0.15, rot: -9, delay: 130 },
+          ]
+        : [
+            { x: 23, y: 56, size: "clamp(280px, 34vw, 440px)", op: 0.24, rot: -5, delay: 0 },
+            { x: 74, y: 38, size: "clamp(300px, 38vw, 490px)", op: 0.18, rot: 7, delay: 65 },
+            { x: 48, y: 82, size: "clamp(200px, 25vw, 310px)", op: 0.15, rot: -10, delay: 130 },
+          ];
+
+      presets.forEach((slot) => {
+        const img = document.createElement("img");
+        img.src = resolvedSvg;
+        img.alt = "";
+        img.className = "about-bg-portrait";
+        const jx = (Math.random() - 0.5) * 4;
+        const jy = (Math.random() - 0.5) * 4;
+        const rEnd = slot.rot + (Math.random() - 0.5) * 6;
+        const rStart = rEnd + (Math.random() < 0.5 ? -12 : 12);
+        img.style.left = `${(slot.x + jx).toFixed(1)}%`;
+        img.style.top = `${(slot.y + jy).toFixed(1)}%`;
+        img.style.setProperty("--portrait-size", slot.size);
+        img.style.setProperty("--portrait-opacity", String(slot.op));
+        img.style.setProperty("--r-start", `${rStart.toFixed(1)}deg`);
+        img.style.setProperty("--r-end", `${rEnd.toFixed(1)}deg`);
+        img.style.setProperty("--portrait-delay", `${slot.delay}ms`);
+        aboutBgStage.appendChild(img);
+      });
+    };
+
+    const selectMember = (row, forceActivate = false) => {
+      const mId = row.dataset.memberId || "";
+      const mSvg = row.dataset.memberSvg || "";
+      if (!forceActivate && activeMemberId === mId) {
+        activeMemberId = null;
+        memberRows.forEach((r) => {
+          r.classList.remove("is-active");
+          r.setAttribute("aria-pressed", "false");
+        });
+        renderMemberBackground(null);
+        return;
+      }
+      activeMemberId = mId;
+      memberRows.forEach((r) => {
+        const isMatch = r === row;
+        r.classList.toggle("is-active", isMatch);
+        r.setAttribute("aria-pressed", String(isMatch));
+      });
+      renderMemberBackground(mSvg);
+    };
+
+    memberRows.forEach((row) => {
+      row.addEventListener("click", (e) => {
+        const clickedLink = e && e.target && typeof e.target.closest === "function" ? e.target.closest("a") : null;
+        selectMember(row, Boolean(clickedLink));
+      });
+      row.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          const focusedLink = e && e.target && typeof e.target.closest === "function" ? e.target.closest("a") : null;
+          if (focusedLink) return;
+          e.preventDefault();
+          selectMember(row, false);
+        }
+      });
+    });
+  }
+
   if (window.INITIAL_PROJECT_ID) {
     openDetailSheet(window.INITIAL_PROJECT_ID, 0, false);
   }
