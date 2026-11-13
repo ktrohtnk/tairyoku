@@ -733,10 +733,10 @@ html[data-view="table"] .table-stage { display: block; }
 
 .about-bg-anim {
   position: absolute;
-  left: min(54%, 600px);
+  left: 68%;
   top: 50%;
-  width: clamp(420px, 56vw, 660px);
-  height: clamp(420px, 56vw, 660px);
+  width: clamp(540px, 54vw, 780px);
+  height: clamp(540px, 54vw, 780px);
   pointer-events: none;
   user-select: none;
   transform-origin: center center;
@@ -748,8 +748,8 @@ html[data-view="table"] .table-stage { display: block; }
   .about-bg-anim {
     left: 50%;
     top: 50%;
-    width: clamp(320px, 90vw, 480px);
-    height: clamp(320px, 90vw, 480px);
+    width: clamp(340px, 98vw, 540px);
+    height: clamp(340px, 98vw, 540px);
   }
 }
 
@@ -759,7 +759,7 @@ html[data-view="table"] .table-stage { display: block; }
     transform: translate(-50%, -50%) rotate(-3deg) scale(0.84);
   }
   100% {
-    opacity: var(--anim-opacity, 0.65);
+    opacity: var(--anim-opacity, 0.68);
     transform: translate(-50%, -50%) rotate(-1.5deg) scale(1);
   }
 }
@@ -773,6 +773,9 @@ html[data-view="table"] .table-stage { display: block; }
   pointer-events: none;
   user-select: none;
   filter: url(#tairyoku-duotone);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
   opacity: 0;
 }
 
@@ -2323,7 +2326,7 @@ APP_JS = r"""/* ================================================================
 
     const getMemberInterval = (row) => {
       const parsed = row && row.dataset ? Number.parseInt(row.dataset.memberInterval || "", 10) : NaN;
-      return Number.isFinite(parsed) && parsed > 0 ? parsed : 165;
+      return Number.isFinite(parsed) && parsed > 0 ? parsed : 450;
     };
 
     const stopMemberAnimation = () => {
@@ -2625,7 +2628,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=14">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=15">
 </head>
 <body>
 {build_svg_filter()}
@@ -2869,7 +2872,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=14"></script>
+<script src="{p_url('/app.js')}?v=15"></script>
 </body>
 </html>
 """

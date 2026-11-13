@@ -722,10 +722,10 @@ html[data-view="table"] .table-stage { display: block; }
 
 .about-bg-anim {
   position: absolute;
-  left: min(54%, 600px);
+  left: 68%;
   top: 50%;
-  width: clamp(420px, 56vw, 660px);
-  height: clamp(420px, 56vw, 660px);
+  width: clamp(540px, 54vw, 780px);
+  height: clamp(540px, 54vw, 780px);
   pointer-events: none;
   user-select: none;
   transform-origin: center center;
@@ -737,8 +737,8 @@ html[data-view="table"] .table-stage { display: block; }
   .about-bg-anim {
     left: 50%;
     top: 50%;
-    width: clamp(320px, 90vw, 480px);
-    height: clamp(320px, 90vw, 480px);
+    width: clamp(340px, 98vw, 540px);
+    height: clamp(340px, 98vw, 540px);
   }
 }
 
@@ -748,7 +748,7 @@ html[data-view="table"] .table-stage { display: block; }
     transform: translate(-50%, -50%) rotate(-3deg) scale(0.84);
   }
   100% {
-    opacity: var(--anim-opacity, 0.65);
+    opacity: var(--anim-opacity, 0.68);
     transform: translate(-50%, -50%) rotate(-1.5deg) scale(1);
   }
 }
@@ -762,6 +762,9 @@ html[data-view="table"] .table-stage { display: block; }
   pointer-events: none;
   user-select: none;
   filter: url(#tairyoku-duotone);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
   opacity: 0;
 }
 

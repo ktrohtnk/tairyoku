@@ -986,7 +986,7 @@
 
     const getMemberInterval = (row) => {
       const parsed = row && row.dataset ? Number.parseInt(row.dataset.memberInterval || "", 10) : NaN;
-      return Number.isFinite(parsed) && parsed > 0 ? parsed : 165;
+      return Number.isFinite(parsed) && parsed > 0 ? parsed : 450;
     };
 
     const stopMemberAnimation = () => {
