@@ -20,6 +20,7 @@ STYLES_CSS = r"""/* ============================================================
   --ink-rgb: 53, 25, 232;
   --ink-soft: rgba(53, 25, 232, 0.12);
   --ink-mid: rgba(53, 25, 232, 0.38);
+  --video-filter: grayscale(100%) sepia(100%) hue-rotate(205deg) saturate(520%) contrast(1.18) brightness(0.96);
   --bg: #faf9ff;
   --bg-rgb: 250, 249, 255;
   --font-raw: "Times New Roman", Times, "Hiragino Mincho ProN", "YuMincho", serif;
@@ -34,6 +35,7 @@ html[data-ink="ultramarine"] {
   --ink-rgb: 20, 36, 245;
   --ink-soft: rgba(20, 36, 245, 0.12);
   --ink-mid: rgba(20, 36, 245, 0.38);
+  --video-filter: grayscale(100%) sepia(100%) hue-rotate(195deg) saturate(560%) contrast(1.18) brightness(0.96);
   --bg: #f8faff;
   --bg-rgb: 248, 250, 255;
 }
@@ -43,6 +45,7 @@ html[data-ink="purple"] {
   --ink-rgb: 90, 18, 217;
   --ink-soft: rgba(90, 18, 217, 0.12);
   --ink-mid: rgba(90, 18, 217, 0.38);
+  --video-filter: grayscale(100%) sepia(100%) hue-rotate(225deg) saturate(520%) contrast(1.20) brightness(0.94);
   --bg: #fcf9ff;
   --bg-rgb: 252, 249, 255;
 }
@@ -52,6 +55,7 @@ html[data-ink="night"] {
   --ink-rgb: 182, 168, 255;
   --ink-soft: rgba(182, 168, 255, 0.14);
   --ink-mid: rgba(182, 168, 255, 0.42);
+  --video-filter: grayscale(100%) sepia(100%) hue-rotate(210deg) saturate(380%) contrast(1.30) brightness(0.85);
   --bg: #0c0721;
   --bg-rgb: 12, 7, 33;
 }
@@ -925,13 +929,23 @@ html[data-view="table"] .table-stage { display: block; }
   height: auto;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  filter: contrast(1.16) brightness(1.05) url(#tairyoku-duotone);
-  transition: filter 0.28s ease;
+  /* Universal standard CSS filter: 100% video support on iOS Safari, Android & desktop */
+  filter: var(--video-filter);
+  -webkit-filter: var(--video-filter);
+  transition: filter 0.28s ease, -webkit-filter 0.28s ease;
 }
 
-html[data-color="color"] .contact-video,
-html[data-color="hover"] .contact-video-frame:hover .contact-video {
+html[data-color="color"] .contact-video {
   filter: none;
+  -webkit-filter: none;
+}
+
+/* Hover reveal is strictly desktop-only so touch/scroll on mobile never gets stuck in color */
+@media (hover: hover) {
+  html[data-color="hover"] .contact-video-frame:hover .contact-video {
+    filter: none;
+    -webkit-filter: none;
+  }
 }
 
 /* ==========================================================================
@@ -2456,7 +2470,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=12">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=13">
 </head>
 <body>
 {build_svg_filter()}
@@ -2700,7 +2714,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=12"></script>
+<script src="{p_url('/app.js')}?v=13"></script>
 </body>
 </html>
 """
