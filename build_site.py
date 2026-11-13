@@ -2628,7 +2628,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=15">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=16">
 </head>
 <body>
 {build_svg_filter()}
@@ -2823,7 +2823,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
       </div>
 
       <figure class="contact-video-frame">
-        <video class="contact-video" src="{p_url('/assets/contact-motion.mp4')}" autoplay loop muted playsinline preload="metadata" width="720" height="900"></video>
+        <video class="contact-video" src="{p_url('/assets/contact-motion.mp4')}?v=16" autoplay loop muted playsinline preload="auto" width="720" height="900"></video>
       </figure>
     </div>
   </section>
@@ -2872,7 +2872,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=15"></script>
+<script src="{p_url('/app.js')}?v=16"></script>
 </body>
 </html>
 """
