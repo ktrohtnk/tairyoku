@@ -1175,6 +1175,23 @@ html[data-color="color"] .contact-video {
   white-space: nowrap;
 }
 
+.site-colophon {
+  padding: 10px 12px;
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 16px;
+}
+
+.site-colophon-loc {
+  opacity: 0.72;
+}
+
 /* Stamp clones created on click — large random full-window stamps */
 .ink-stamp {
   position: fixed;

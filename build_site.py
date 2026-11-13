@@ -1186,6 +1186,23 @@ html[data-color="color"] .contact-video {
   white-space: nowrap;
 }
 
+.site-colophon {
+  padding: 10px 12px;
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 16px;
+}
+
+.site-colophon-loc {
+  opacity: 0.72;
+}
+
 /* Stamp clones created on click — large random full-window stamps */
 .ink-stamp {
   position: fixed;
@@ -2636,7 +2653,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=17">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=18">
 </head>
 <body>
 {build_svg_filter()}
@@ -2835,6 +2852,11 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
       </figure>
     </div>
   </section>
+
+  <div class="site-colophon" aria-label="Copyright">
+    <span>© 2026 TAIRYOKU. All rights reserved.</span>
+    <span class="site-colophon-loc">Fukuoka, Japan</span>
+  </div>
 </main>
 
 <!-- PROJECT DETAIL OVERLAY SHEET -->
