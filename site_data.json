@@ -18,12 +18,12 @@
         "name": "Arata Fukuyama",
         "handle": "@fukuyama_arata",
         "url": "https://www.instagram.com/fukuyama_arata/",
-        "svg": "/assets/members/arata-1.svg",
+        "svg": "/assets/members/arata-1.svg?v=18",
         "frames": [
-          "/assets/members/arata-1.svg",
-          "/assets/members/arata-2.svg",
-          "/assets/members/arata-3.svg",
-          "/assets/members/arata-4.svg"
+          "/assets/members/arata-1.svg?v=18",
+          "/assets/members/arata-2.svg?v=18",
+          "/assets/members/arata-3.svg?v=18",
+          "/assets/members/arata-4.svg?v=18"
         ],
         "frame_interval": 450
       },
@@ -32,12 +32,12 @@
         "name": "Kentaro Hatanaka",
         "handle": "@kntro",
         "url": "https://www.instagram.com/kntro/",
-        "svg": "/assets/members/kentaro-1.svg",
+        "svg": "/assets/members/kentaro-1.svg?v=18",
         "frames": [
-          "/assets/members/kentaro-1.svg",
-          "/assets/members/kentaro-2.svg",
-          "/assets/members/kentaro-3.svg",
-          "/assets/members/kentaro-4.svg"
+          "/assets/members/kentaro-1.svg?v=18",
+          "/assets/members/kentaro-2.svg?v=18",
+          "/assets/members/kentaro-3.svg?v=18",
+          "/assets/members/kentaro-4.svg?v=18"
         ],
         "frame_interval": 450
       },
@@ -46,12 +46,12 @@
         "name": "Haruna Murayama",
         "handle": "@h.r.u____",
         "url": "https://www.instagram.com/h.r.u____/",
-        "svg": "/assets/members/haru-1.svg",
+        "svg": "/assets/members/haru-1.svg?v=18",
         "frames": [
-          "/assets/members/haru-1.svg",
-          "/assets/members/haru-2.svg",
-          "/assets/members/haru-3.svg",
-          "/assets/members/haru-4.svg"
+          "/assets/members/haru-1.svg?v=18",
+          "/assets/members/haru-2.svg?v=18",
+          "/assets/members/haru-3.svg?v=18",
+          "/assets/members/haru-4.svg?v=18"
         ],
         "frame_interval": 450
       }
