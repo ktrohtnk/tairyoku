@@ -666,11 +666,11 @@ html[data-view="table"] .table-stage { display: block; }
 #about-section .raw-h1,
 #about-section .raw-lead,
 #about-section .raw-p {
-  text-shadow: 0 0 10px var(--bg), 0 0 4px var(--bg);
+  text-shadow: 0 0 16px var(--bg), 0 0 8px var(--bg), 0 0 2px var(--bg);
 }
 
 .members-table tbody tr.member-row {
-  background: rgba(var(--bg-rgb), 0.72);
+  background: rgba(var(--bg-rgb), 0.78);
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
@@ -683,9 +683,19 @@ html[data-view="table"] .table-stage { display: block; }
   color: var(--bg);
 }
 
+@media (hover: hover) {
+  .members-table tbody tr.member-row:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .members-table tbody tr.member-row:hover a {
+    color: var(--bg);
+  }
+}
+
 @media (hover: none) {
   .members-table tbody tr.member-row:not(.is-active):hover {
-    background: rgba(var(--bg-rgb), 0.72);
+    background: rgba(var(--bg-rgb), 0.78);
     color: var(--ink);
   }
   .members-table tbody tr.member-row:not(.is-active):hover a {
@@ -719,6 +729,55 @@ html[data-view="table"] .table-stage { display: block; }
     opacity: var(--portrait-opacity, 0.22);
     transform: translate(-50%, -50%) rotate(var(--r-end, -4deg)) scale(1);
   }
+}
+
+.about-bg-anim {
+  position: absolute;
+  left: min(54%, 600px);
+  top: 50%;
+  width: clamp(420px, 56vw, 660px);
+  height: clamp(420px, 56vw, 660px);
+  pointer-events: none;
+  user-select: none;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  animation: member-anim-pop 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (max-width: 860px) {
+  .about-bg-anim {
+    left: 50%;
+    top: 50%;
+    width: clamp(320px, 90vw, 480px);
+    height: clamp(320px, 90vw, 480px);
+  }
+}
+
+@keyframes member-anim-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-3deg) scale(0.84);
+  }
+  100% {
+    opacity: var(--anim-opacity, 0.65);
+    transform: translate(-50%, -50%) rotate(-1.5deg) scale(1);
+  }
+}
+
+.about-bg-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: url(#tairyoku-duotone);
+  opacity: 0;
+}
+
+.about-bg-frame.is-frame-active {
+  opacity: 1;
 }
 
 .raw-section-inner {
@@ -779,7 +838,7 @@ html[data-view="table"] .table-stage { display: block; }
   overflow-y: auto;
   overflow-x: hidden;
   border: 1px solid var(--ink);
-  background: rgba(var(--bg-rgb), 0.72);
+  background: rgba(var(--bg-rgb), 0.8);
   scrollbar-width: thin;
   scrollbar-color: var(--ink) transparent;
 }
@@ -2235,18 +2294,89 @@ APP_JS = r"""/* ================================================================
   const aboutBgStage = document.getElementById("about-bg-stage");
   const memberRows = Array.from(document.querySelectorAll(".member-row"));
   if (DATA.team && Array.isArray(DATA.team.members)) {
+    const preloadedMemberUrls = new Set();
+    const preloadMemberAsset = (relPath) => {
+      if (!relPath || preloadedMemberUrls.has(relPath)) return;
+      preloadedMemberUrls.add(relPath);
+      const pre = new Image();
+      pre.src = resolvePath(relPath);
+    };
     DATA.team.members.forEach((m) => {
-      if (m.svg) {
-        const pre = new Image();
-        pre.src = resolvePath(m.svg);
+      preloadMemberAsset(m.svg);
+      if (Array.isArray(m.frames)) {
+        m.frames.forEach(preloadMemberAsset);
       }
     });
   }
   if (aboutBgStage && memberRows.length > 0) {
     let activeMemberId = null;
+    let hoveredMemberId = null;
+    let frameTimerId = null;
+    let renderedAnimMemberId = null;
+    const canHover = typeof window.matchMedia === "function" ? window.matchMedia("(hover: hover)").matches : true;
 
-    const renderMemberBackground = (svgRelPath) => {
+    const getMemberFrames = (row) => {
+      const raw = row && row.dataset ? (row.dataset.memberFrames || "") : "";
+      if (!raw) return [];
+      return raw.split(",").map((s) => s.trim()).filter(Boolean);
+    };
+
+    const getMemberInterval = (row) => {
+      const parsed = row && row.dataset ? Number.parseInt(row.dataset.memberInterval || "", 10) : NaN;
+      return Number.isFinite(parsed) && parsed > 0 ? parsed : 165;
+    };
+
+    const stopMemberAnimation = () => {
+      if (frameTimerId !== null) {
+        clearInterval(frameTimerId);
+        frameTimerId = null;
+      }
+      renderedAnimMemberId = null;
+    };
+
+    const renderAnimatedBackground = (memberId, frames, intervalMs) => {
+      if (!frames || frames.length === 0) return;
+      if (renderedAnimMemberId === memberId && frameTimerId !== null && aboutBgStage.querySelector(".about-bg-anim")) {
+        return;
+      }
+      stopMemberAnimation();
       aboutBgStage.innerHTML = "";
+      const wrap = document.createElement("div");
+      wrap.className = "about-bg-anim";
+      const frameEls = frames.map((framePath, idx) => {
+        const img = document.createElement("img");
+        img.src = resolvePath(framePath);
+        img.alt = "";
+        img.className = idx === 0 ? "about-bg-frame is-frame-active" : "about-bg-frame";
+        wrap.appendChild(img);
+        return img;
+      });
+      aboutBgStage.appendChild(wrap);
+      renderedAnimMemberId = memberId;
+      if (frameEls.length > 1) {
+        let frameIndex = 0;
+        frameTimerId = setInterval(() => {
+          frameEls[frameIndex].classList.remove("is-frame-active");
+          frameIndex = (frameIndex + 1) % frameEls.length;
+          frameEls[frameIndex].classList.add("is-frame-active");
+        }, intervalMs);
+      }
+    };
+
+    const renderMemberBackground = (row) => {
+      if (!row) {
+        stopMemberAnimation();
+        aboutBgStage.innerHTML = "";
+        return;
+      }
+      const frames = getMemberFrames(row);
+      if (frames.length > 0) {
+        renderAnimatedBackground(row.dataset.memberId || "", frames, getMemberInterval(row));
+        return;
+      }
+      stopMemberAnimation();
+      aboutBgStage.innerHTML = "";
+      const svgRelPath = row.dataset.memberSvg || "";
       if (!svgRelPath) return;
       const resolvedSvg = resolvePath(svgRelPath);
       const vw = window.innerWidth || 1200;
@@ -2283,16 +2413,26 @@ APP_JS = r"""/* ================================================================
       });
     };
 
+    const syncMemberStage = () => {
+      const targetId = hoveredMemberId || activeMemberId;
+      if (!targetId) {
+        renderMemberBackground(null);
+        return;
+      }
+      const targetRow = memberRows.find((r) => (r.dataset.memberId || "") === targetId) || null;
+      renderMemberBackground(targetRow);
+    };
+
     const selectMember = (row, forceActivate = false) => {
       const mId = row.dataset.memberId || "";
-      const mSvg = row.dataset.memberSvg || "";
       if (!forceActivate && activeMemberId === mId) {
         activeMemberId = null;
+        if (hoveredMemberId === mId) hoveredMemberId = null;
         memberRows.forEach((r) => {
           r.classList.remove("is-active");
           r.setAttribute("aria-pressed", "false");
         });
-        renderMemberBackground(null);
+        syncMemberStage();
         return;
       }
       activeMemberId = mId;
@@ -2301,10 +2441,22 @@ APP_JS = r"""/* ================================================================
         r.classList.toggle("is-active", isMatch);
         r.setAttribute("aria-pressed", String(isMatch));
       });
-      renderMemberBackground(mSvg);
+      syncMemberStage();
     };
 
     memberRows.forEach((row) => {
+      if (canHover && getMemberFrames(row).length > 0) {
+        row.addEventListener("mouseenter", () => {
+          hoveredMemberId = row.dataset.memberId || "";
+          syncMemberStage();
+        });
+        row.addEventListener("mouseleave", () => {
+          if (hoveredMemberId === (row.dataset.memberId || "")) {
+            hoveredMemberId = null;
+            syncMemberStage();
+          }
+        });
+      }
       row.addEventListener("click", (e) => {
         const clickedLink = e && e.target && typeof e.target.closest === "function" ? e.target.closest("a") : null;
         selectMember(row, Boolean(clickedLink));
@@ -2411,10 +2563,13 @@ def render_page_html(
         )
 
     members_rows = "".join(
-        f'<tr class="member-row" data-member-id="{html_lib.escape(m.get("id", ""))}" data-member-svg="{html_lib.escape(m.get("svg", ""))}" tabindex="0" role="button" aria-pressed="false">'
-        f'<td>{html_lib.escape(m["name"])}</td>'
-        f'<td><a href="{m["url"]}" target="_blank" rel="noreferrer">{html_lib.escape(m["handle"])} ↗</a></td>'
-        f'</tr>'
+        f'<tr class="member-row" data-member-id="{html_lib.escape(m.get("id", ""))}" data-member-svg="{html_lib.escape(m.get("svg", ""))}"'
+        + (f' data-member-frames="{html_lib.escape(",".join(m["frames"]))}"' if m.get("frames") else "")
+        + (f' data-member-interval="{int(m["frame_interval"])}"' if m.get("frame_interval") else "")
+        + ' tabindex="0" role="button" aria-pressed="false">'
+        + f'<td>{html_lib.escape(m["name"])}</td>'
+        + f'<td><a href="{m["url"]}" target="_blank" rel="noreferrer">{html_lib.escape(m["handle"])} ↗</a></td>'
+        + '</tr>'
         for m in team["members"]
     )
 
@@ -2470,7 +2625,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=13">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=14">
 </head>
 <body>
 {build_svg_filter()}
@@ -2714,7 +2869,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=13"></script>
+<script src="{p_url('/app.js')}?v=14"></script>
 </body>
 </html>
 """

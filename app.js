@@ -957,18 +957,89 @@
   const aboutBgStage = document.getElementById("about-bg-stage");
   const memberRows = Array.from(document.querySelectorAll(".member-row"));
   if (DATA.team && Array.isArray(DATA.team.members)) {
+    const preloadedMemberUrls = new Set();
+    const preloadMemberAsset = (relPath) => {
+      if (!relPath || preloadedMemberUrls.has(relPath)) return;
+      preloadedMemberUrls.add(relPath);
+      const pre = new Image();
+      pre.src = resolvePath(relPath);
+    };
     DATA.team.members.forEach((m) => {
-      if (m.svg) {
-        const pre = new Image();
-        pre.src = resolvePath(m.svg);
+      preloadMemberAsset(m.svg);
+      if (Array.isArray(m.frames)) {
+        m.frames.forEach(preloadMemberAsset);
       }
     });
   }
   if (aboutBgStage && memberRows.length > 0) {
     let activeMemberId = null;
+    let hoveredMemberId = null;
+    let frameTimerId = null;
+    let renderedAnimMemberId = null;
+    const canHover = typeof window.matchMedia === "function" ? window.matchMedia("(hover: hover)").matches : true;
 
-    const renderMemberBackground = (svgRelPath) => {
+    const getMemberFrames = (row) => {
+      const raw = row && row.dataset ? (row.dataset.memberFrames || "") : "";
+      if (!raw) return [];
+      return raw.split(",").map((s) => s.trim()).filter(Boolean);
+    };
+
+    const getMemberInterval = (row) => {
+      const parsed = row && row.dataset ? Number.parseInt(row.dataset.memberInterval || "", 10) : NaN;
+      return Number.isFinite(parsed) && parsed > 0 ? parsed : 165;
+    };
+
+    const stopMemberAnimation = () => {
+      if (frameTimerId !== null) {
+        clearInterval(frameTimerId);
+        frameTimerId = null;
+      }
+      renderedAnimMemberId = null;
+    };
+
+    const renderAnimatedBackground = (memberId, frames, intervalMs) => {
+      if (!frames || frames.length === 0) return;
+      if (renderedAnimMemberId === memberId && frameTimerId !== null && aboutBgStage.querySelector(".about-bg-anim")) {
+        return;
+      }
+      stopMemberAnimation();
       aboutBgStage.innerHTML = "";
+      const wrap = document.createElement("div");
+      wrap.className = "about-bg-anim";
+      const frameEls = frames.map((framePath, idx) => {
+        const img = document.createElement("img");
+        img.src = resolvePath(framePath);
+        img.alt = "";
+        img.className = idx === 0 ? "about-bg-frame is-frame-active" : "about-bg-frame";
+        wrap.appendChild(img);
+        return img;
+      });
+      aboutBgStage.appendChild(wrap);
+      renderedAnimMemberId = memberId;
+      if (frameEls.length > 1) {
+        let frameIndex = 0;
+        frameTimerId = setInterval(() => {
+          frameEls[frameIndex].classList.remove("is-frame-active");
+          frameIndex = (frameIndex + 1) % frameEls.length;
+          frameEls[frameIndex].classList.add("is-frame-active");
+        }, intervalMs);
+      }
+    };
+
+    const renderMemberBackground = (row) => {
+      if (!row) {
+        stopMemberAnimation();
+        aboutBgStage.innerHTML = "";
+        return;
+      }
+      const frames = getMemberFrames(row);
+      if (frames.length > 0) {
+        renderAnimatedBackground(row.dataset.memberId || "", frames, getMemberInterval(row));
+        return;
+      }
+      stopMemberAnimation();
+      aboutBgStage.innerHTML = "";
+      const svgRelPath = row.dataset.memberSvg || "";
       if (!svgRelPath) return;
       const resolvedSvg = resolvePath(svgRelPath);
       const vw = window.innerWidth || 1200;
@@ -1005,16 +1076,26 @@
       });
     };
 
+    const syncMemberStage = () => {
+      const targetId = hoveredMemberId || activeMemberId;
+      if (!targetId) {
+        renderMemberBackground(null);
+        return;
+      }
+      const targetRow = memberRows.find((r) => (r.dataset.memberId || "") === targetId) || null;
+      renderMemberBackground(targetRow);
+    };
+
     const selectMember = (row, forceActivate = false) => {
       const mId = row.dataset.memberId || "";
-      const mSvg = row.dataset.memberSvg || "";
       if (!forceActivate && activeMemberId === mId) {
         activeMemberId = null;
+        if (hoveredMemberId === mId) hoveredMemberId = null;
         memberRows.forEach((r) => {
           r.classList.remove("is-active");
           r.setAttribute("aria-pressed", "false");
         });
-        renderMemberBackground(null);
+        syncMemberStage();
         return;
       }
       activeMemberId = mId;
@@ -1023,10 +1104,22 @@
         r.classList.toggle("is-active", isMatch);
         r.setAttribute("aria-pressed", String(isMatch));
       });
-      renderMemberBackground(mSvg);
+      syncMemberStage();
     };
 
     memberRows.forEach((row) => {
+      if (canHover && getMemberFrames(row).length > 0) {
+        row.addEventListener("mouseenter", () => {
+          hoveredMemberId = row.dataset.memberId || "";
+          syncMemberStage();
+        });
+        row.addEventListener("mouseleave", () => {
+          if (hoveredMemberId === (row.dataset.memberId || "")) {
+            hoveredMemberId = null;
+            syncMemberStage();
+          }
+        });
+      }
       row.addEventListener("click", (e) => {
         const clickedLink = e && e.target && typeof e.target.closest === "function" ? e.target.closest("a") : null;
         selectMember(row, Boolean(clickedLink));

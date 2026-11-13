@@ -32,7 +32,14 @@
         "name": "Haruna Murayama",
         "handle": "@h.r.u____",
         "url": "https://www.instagram.com/h.r.u____/",
-        "svg": "/assets/members/haru.svg"
+        "svg": "/assets/members/haru-1.svg",
+        "frames": [
+          "/assets/members/haru-1.svg",
+          "/assets/members/haru-2.svg",
+          "/assets/members/haru-3.svg",
+          "/assets/members/haru-4.svg"
+        ],
+        "frame_interval": 165
       }
     ],
     "history": [
