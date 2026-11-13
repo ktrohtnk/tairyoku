@@ -35,7 +35,7 @@ html[data-ink="ultramarine"] {
   --ink-rgb: 20, 36, 245;
   --ink-soft: rgba(20, 36, 245, 0.12);
   --ink-mid: rgba(20, 36, 245, 0.38);
-  --video-filter: grayscale(100%) sepia(100%) hue-rotate(195deg) saturate(560%) contrast(1.18) brightness(0.96);
+  --video-filter: grayscale(100%) sepia(100%) hue-rotate(206deg) saturate(560%) contrast(1.18) brightness(0.96);
   --bg: #f8faff;
   --bg-rgb: 248, 250, 255;
 }
@@ -70,6 +70,7 @@ html[data-size="l"] { --wall-cols: 3; }
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
@@ -983,6 +984,9 @@ html[data-view="table"] .table-stage { display: block; }
   background: var(--bg);
   overflow: hidden;
   line-height: 0;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .contact-video {
@@ -991,10 +995,14 @@ html[data-view="table"] .table-stage { display: block; }
   height: auto;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  /* Universal standard CSS filter: 100% video support on iOS Safari, Android & desktop */
+  /* Universal standard CSS filter; no hue-rotate transition so hover/touch never flashes cyan */
   filter: var(--video-filter);
   -webkit-filter: var(--video-filter);
-  transition: filter 0.28s ease, -webkit-filter 0.28s ease;
+  transition: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 html[data-color="color"] .contact-video {
@@ -1002,8 +1010,8 @@ html[data-color="color"] .contact-video {
   -webkit-filter: none;
 }
 
-/* Hover reveal is strictly desktop-only so touch/scroll on mobile never gets stuck in color */
-@media (hover: hover) {
+/* Desktop fine-pointer hover reveal only; avoids mobile tap hover/highlight flashes */
+@media (hover: hover) and (pointer: fine) {
   html[data-color="hover"] .contact-video-frame:hover .contact-video {
     filter: none;
     -webkit-filter: none;
@@ -2628,7 +2636,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=16">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=17">
 </head>
 <body>
 {build_svg_filter()}
@@ -2872,7 +2880,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=16"></script>
+<script src="{p_url('/app.js')}?v=17"></script>
 </body>
 </html>
 """
