@@ -1143,6 +1143,20 @@ html[data-color="color"] .contact-video {
   opacity: 1;
 }
 
+.raw-colophon {
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 16px;
+}
+
 .raw-footer {
   position: sticky;
   bottom: 0;
@@ -1184,23 +1198,6 @@ html[data-color="color"] .contact-video {
   border-left: 1px solid var(--ink);
   background: var(--bg);
   white-space: nowrap;
-}
-
-.site-colophon {
-  padding: 10px 12px;
-  background: var(--bg);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.4;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px 16px;
-}
-
-.site-colophon-loc {
-  opacity: 0.72;
 }
 
 /* Stamp clones created on click — large random full-window stamps */
@@ -2853,9 +2850,9 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
     </div>
   </section>
 
-  <div class="site-colophon" aria-label="Copyright">
-    <span>© 2026 TAIRYOKU. All rights reserved.</span>
-    <span class="site-colophon-loc">Fukuoka, Japan</span>
+  <!-- COLOPHON / COPYRIGHT -->
+  <div class="raw-colophon">
+    <span>&copy; 2026 TAIRYOKU. All Rights Reserved.</span>
   </div>
 </main>
 
@@ -2894,8 +2891,8 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 <footer class="raw-footer">
   <div class="raw-marquee" aria-hidden="true">
     <div class="raw-marquee-track">
-      <span>TAIRYOKU (体力) — FUKUOKA CREATIVE TEAM — DRAWING / GRAPHIC DESIGN / ZINE / CLOTHING / EXHIBITION — HOVER WALL TO WAKE COLOR — </span>
-      <span>TAIRYOKU (体力) — FUKUOKA CREATIVE TEAM — DRAWING / GRAPHIC DESIGN / ZINE / CLOTHING / EXHIBITION — HOVER WALL TO WAKE COLOR — </span>
+      <span>TAIRYOKU (体力) — FUKUOKA CREATIVE TEAM — DRAWING / GRAPHIC DESIGN / ZINE / CLOTHING / EXHIBITION — HOVER WALL TO WAKE COLOR — &copy; 2026 TAIRYOKU. ALL RIGHTS RESERVED. — </span>
+      <span>TAIRYOKU (体力) — FUKUOKA CREATIVE TEAM — DRAWING / GRAPHIC DESIGN / ZINE / CLOTHING / EXHIBITION — HOVER WALL TO WAKE COLOR — &copy; 2026 TAIRYOKU. ALL RIGHTS RESERVED. — </span>
     </div>
   </div>
   <div class="footer-status" id="status-readout">18 PROJECTS / 83 FRAMES READY [SINGLE-INK WALL]</div>
