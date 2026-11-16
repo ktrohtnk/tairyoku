@@ -896,8 +896,31 @@ html[data-view="table"] .table-stage { display: block; }
   color: var(--ink);
 }
 
+.chronology-table tbody tr.chronology-year-row {
+  cursor: default;
+}
+
+.chronology-table tbody tr.chronology-year-row:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+.chronology-table tbody tr.chronology-year-row th {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 5px 8px;
+  border-right: 0;
+  background: linear-gradient(var(--ink-soft), var(--ink-soft)), var(--bg);
+}
+
 .chronology-col-date {
-  width: 162px;
+  width: 124px;
+}
+
+.chronology-date.is-year-only {
+  opacity: 0.55;
 }
 
 .chronology-col-loc {
@@ -1275,13 +1298,23 @@ html[data-color="color"] .contact-video {
   .chronology-table,
   .chronology-table tbody,
   .chronology-table tr,
-  .chronology-table td {
+  .chronology-table td,
+  .chronology-table tbody tr.chronology-year-row th {
     display: block;
     width: 100%;
   }
   .chronology-table tbody tr {
     padding: 8px 10px;
     border-bottom: 1px solid var(--ink);
+  }
+  .chronology-table tbody tr.chronology-year-row {
+    padding: 4px 10px;
+    background: linear-gradient(var(--ink-soft), var(--ink-soft)), var(--bg);
+  }
+  .chronology-table tbody tr.chronology-year-row th {
+    border: 0;
+    padding: 0;
+    background: transparent;
   }
   .chronology-table tbody tr:last-child {
     border-bottom: 0;
@@ -1294,6 +1327,9 @@ html[data-color="color"] .contact-video {
     font-size: 11px;
     opacity: 0.78;
     margin-bottom: 2px;
+  }
+  .chronology-table td.chronology-date.is-year-only {
+    display: none;
   }
   .chronology-table td.chronology-title {
     font-size: 14px;

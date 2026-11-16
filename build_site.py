@@ -907,8 +907,31 @@ html[data-view="table"] .table-stage { display: block; }
   color: var(--ink);
 }
 
+.chronology-table tbody tr.chronology-year-row {
+  cursor: default;
+}
+
+.chronology-table tbody tr.chronology-year-row:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+.chronology-table tbody tr.chronology-year-row th {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 5px 8px;
+  border-right: 0;
+  background: linear-gradient(var(--ink-soft), var(--ink-soft)), var(--bg);
+}
+
 .chronology-col-date {
-  width: 162px;
+  width: 124px;
+}
+
+.chronology-date.is-year-only {
+  opacity: 0.55;
 }
 
 .chronology-col-loc {
@@ -1286,13 +1309,23 @@ html[data-color="color"] .contact-video {
   .chronology-table,
   .chronology-table tbody,
   .chronology-table tr,
-  .chronology-table td {
+  .chronology-table td,
+  .chronology-table tbody tr.chronology-year-row th {
     display: block;
     width: 100%;
   }
   .chronology-table tbody tr {
     padding: 8px 10px;
     border-bottom: 1px solid var(--ink);
+  }
+  .chronology-table tbody tr.chronology-year-row {
+    padding: 4px 10px;
+    background: linear-gradient(var(--ink-soft), var(--ink-soft)), var(--bg);
+  }
+  .chronology-table tbody tr.chronology-year-row th {
+    border: 0;
+    padding: 0;
+    background: transparent;
   }
   .chronology-table tbody tr:last-child {
     border-bottom: 0;
@@ -1305,6 +1338,9 @@ html[data-color="color"] .contact-video {
     font-size: 11px;
     opacity: 0.78;
     margin-bottom: 2px;
+  }
+  .chronology-table td.chronology-date.is-year-only {
+    display: none;
   }
   .chronology-table td.chronology-title {
     font-size: 14px;
@@ -2295,7 +2331,7 @@ APP_JS = r"""/* ================================================================
   const chronologyScroll = document.getElementById("chronology-scroll");
   const chronologyToggleBtn = document.getElementById("chronology-toggle-btn");
   if (chronologyScroll && chronologyToggleBtn) {
-    const totalCount = chronologyScroll.querySelectorAll("tbody tr").length;
+    const totalCount = chronologyScroll.querySelectorAll("tbody tr.chronology-entry").length;
     const syncChronologyToggle = () => {
       const isExpanded = chronologyScroll.classList.contains("is-expanded");
       const overflows = chronologyScroll.scrollHeight > chronologyScroll.clientHeight + 4;
@@ -2604,19 +2640,32 @@ def render_page_html(
     def format_chronology_date(entry):
         date_str = str(entry.get("date") or "").strip()
         year_str = str(entry.get("year") or "").strip()
-        if year_str and date_str and year_str not in date_str:
-            return f"{year_str}.{date_str}"
-        return date_str or year_str
+        if year_str and date_str.startswith(f"{year_str}."):
+            return date_str[len(year_str) + 1 :], False
+        if not date_str or date_str == year_str:
+            return "—", True
+        return date_str, False
 
     history_rows_list = []
+    current_year = None
     for h in team["history"]:
+        year_str = str(h.get("year") or "").strip()
+        if year_str and year_str != current_year:
+            current_year = year_str
+            history_rows_list.append(
+                f'<tr class="chronology-year-row">'
+                f'<th colspan="3" scope="colgroup">{html_lib.escape(year_str)}</th>'
+                f'</tr>'
+            )
         title_html = fmt_multiline(h["title"])
         if h.get("url"):
             title_html = f'<a href="{html_lib.escape(h["url"])}" target="_blank" rel="noreferrer">{title_html} ↗</a>'
         note_html = f'<div class="chronology-note">{fmt_multiline(h["note"])}</div>' if h.get("note") else ""
+        date_text, is_year_only = format_chronology_date(h)
+        date_cls = "chronology-date is-year-only" if is_year_only else "chronology-date"
         history_rows_list.append(
-            f'<tr>'
-            f'<td class="chronology-date" style="font-family:var(--font-mono)">{fmt_multiline(format_chronology_date(h))}</td>'
+            f'<tr class="chronology-entry">'
+            f'<td class="{date_cls}" style="font-family:var(--font-mono)">{fmt_multiline(date_text)}</td>'
             f'<td class="chronology-title">{title_html}{note_html}</td>'
             f'<td class="chronology-loc">{fmt_multiline(h["place"])}</td>'
             f'</tr>'
@@ -2650,7 +2699,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=18">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=19">
 </head>
 <body>
 {build_svg_filter()}

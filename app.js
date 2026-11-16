@@ -933,7 +933,7 @@
   const chronologyScroll = document.getElementById("chronology-scroll");
   const chronologyToggleBtn = document.getElementById("chronology-toggle-btn");
   if (chronologyScroll && chronologyToggleBtn) {
-    const totalCount = chronologyScroll.querySelectorAll("tbody tr").length;
+    const totalCount = chronologyScroll.querySelectorAll("tbody tr.chronology-entry").length;
     const syncChronologyToggle = () => {
       const isExpanded = chronologyScroll.classList.contains("is-expanded");
       const overflows = chronologyScroll.scrollHeight > chronologyScroll.clientHeight + 4;
