@@ -79,6 +79,12 @@
     });
     if (mode === "drift") initDriftStage();
     if (mode === "scatter") initScatterStage();
+    if (mode === "table") {
+      document.querySelectorAll(".table-thumb-strip img[data-src]").forEach((img) => {
+        img.src = img.dataset.src;
+        img.removeAttribute("data-src");
+      });
+    }
   }
 
   document.querySelectorAll("[data-set-view]").forEach((btn) => {
@@ -215,13 +221,15 @@
     p.photos.forEach((ph) => preloadSrc(ph.src));
   }
 
-  // Gently warm all project frames in background after page load so flipbook is instant
+  // Gently warm only 2nd frame in background after page load so initial cover wall loads at full speed
   window.addEventListener("load", () => {
     setTimeout(() => {
       DATA.projects.forEach((p, idx) => {
-        setTimeout(() => preloadProjectPhotos(p.id), idx * 140);
+        if (p.photos && p.photos[1]) {
+          setTimeout(() => preloadSrc(p.photos[1].src), idx * 220);
+        }
       });
-    }, 500);
+    }, 1800);
   });
 
   function wakeTile(tile, durationMs = 1350) {

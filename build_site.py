@@ -1500,6 +1500,12 @@ APP_JS = r"""/* ================================================================
     });
     if (mode === "drift") initDriftStage();
     if (mode === "scatter") initScatterStage();
+    if (mode === "table") {
+      document.querySelectorAll(".table-thumb-strip img[data-src]").forEach((img) => {
+        img.src = img.dataset.src;
+        img.removeAttribute("data-src");
+      });
+    }
   }
 
   document.querySelectorAll("[data-set-view]").forEach((btn) => {
@@ -1636,13 +1642,15 @@ APP_JS = r"""/* ================================================================
     p.photos.forEach((ph) => preloadSrc(ph.src));
   }
 
-  // Gently warm all project frames in background after page load so flipbook is instant
+  // Gently warm only 2nd frame in background after page load so initial cover wall loads at full speed
   window.addEventListener("load", () => {
     setTimeout(() => {
       DATA.projects.forEach((p, idx) => {
-        setTimeout(() => preloadProjectPhotos(p.id), idx * 140);
+        if (p.photos && p.photos[1]) {
+          setTimeout(() => preloadSrc(p.photos[1].src), idx * 220);
+        }
       });
-    }, 500);
+    }, 1800);
   });
 
   function wakeTile(tile, durationMs = 1350) {
@@ -2622,6 +2630,7 @@ def render_page_html(
     # Wall tiles (18 projects — 1 cover tile per project, flipbook on hover)
     wall_tiles_html = []
     for t in ALL_TILES:
+        prio_attr = ' fetchpriority="high"' if t["frame"] <= 6 else ""
         wall_tiles_html.append(
             f'<a class="wall-tile" href="{p_url(t["project_url"])}" '
             f'data-frame-code="{t["frame_code"]}" '
@@ -2636,18 +2645,18 @@ def render_page_html(
             f'<div class="wall-tile-card">'
             f'<span class="tile-idx">#{t["project_code"]} [{t["photo_total"]}p]</span>'
             f'<div class="wall-tile-inner">'
-            f'<img src="{p_url(t["src"])}" alt="{html_lib.escape(t["alt"])}" loading="eager">'
+            f'<img src="{p_url(t["src"])}" alt="{html_lib.escape(t["alt"])}" loading="eager" decoding="async"{prio_attr}>'
             f'</div>'
             f'<span class="tile-caption">#{t["project_code"]} {html_lib.escape(t["project_title"])} (1/{t["photo_total"]})</span>'
             f'</div>'
             f'</a>'
         )
 
-    # Table rows (18 projects)
+    # Table rows (18 projects — defer hidden table thumb strip images via data-src until table view is opened)
     table_rows_html = []
     for p in projects:
         thumbs = "".join(
-            f'<img src="{p_url(ph["src"])}" alt="" loading="lazy">'
+            f'<img data-src="{p_url(ph["src"])}" alt="" loading="lazy" decoding="async">'
             for ph in p["photos"][:5]
         )
         shop_cell = f'<a href="{p["shop_url"]}" target="_blank" rel="noreferrer">shop ↗</a>' if p["shop_url"] else "—"
@@ -2987,7 +2996,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=18"></script>
+<script src="{p_url('/app.js')}?v=19"></script>
 </body>
 </html>
 """
