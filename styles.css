@@ -1095,8 +1095,9 @@ html[data-color="color"] .contact-video {
 
 .detail-images-col {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 12px;
+  align-items: start;
 }
 
 .detail-figure {
@@ -1106,7 +1107,14 @@ html[data-color="color"] .contact-video {
   padding: 8px;
 }
 
-.detail-figure img {
+@media (min-width: 1220px) {
+  .detail-figure.is-span-2 {
+    grid-column: span 2;
+  }
+}
+
+.detail-figure img,
+.detail-figure video {
   width: 100%;
   height: auto;
   display: block;
@@ -1114,12 +1122,27 @@ html[data-color="color"] .contact-video {
   transition: filter 0.3s ease;
 }
 
+.detail-figure video {
+  transition: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
 .detail-figure.is-duotone img {
   filter: url(#tairyoku-duotone);
 }
 
-.detail-figure.is-duotone:hover img {
+.detail-figure.is-duotone video {
+  filter: var(--video-filter);
+  -webkit-filter: var(--video-filter);
+}
+
+.detail-figure.is-duotone:hover img,
+.detail-figure.is-duotone:hover video {
   filter: none;
+  -webkit-filter: none;
 }
 
 .detail-figcap {

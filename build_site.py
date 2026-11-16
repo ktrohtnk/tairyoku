@@ -1106,8 +1106,9 @@ html[data-color="color"] .contact-video {
 
 .detail-images-col {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 12px;
+  align-items: start;
 }
 
 .detail-figure {
@@ -1117,7 +1118,14 @@ html[data-color="color"] .contact-video {
   padding: 8px;
 }
 
-.detail-figure img {
+@media (min-width: 1220px) {
+  .detail-figure.is-span-2 {
+    grid-column: span 2;
+  }
+}
+
+.detail-figure img,
+.detail-figure video {
   width: 100%;
   height: auto;
   display: block;
@@ -1125,12 +1133,27 @@ html[data-color="color"] .contact-video {
   transition: filter 0.3s ease;
 }
 
+.detail-figure video {
+  transition: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
 .detail-figure.is-duotone img {
   filter: url(#tairyoku-duotone);
 }
 
-.detail-figure.is-duotone:hover img {
+.detail-figure.is-duotone video {
+  filter: var(--video-filter);
+  -webkit-filter: var(--video-filter);
+}
+
+.detail-figure.is-duotone:hover img,
+.detail-figure.is-duotone:hover video {
   filter: none;
+  -webkit-filter: none;
 }
 
 .detail-figcap {
@@ -2157,7 +2180,7 @@ APP_JS = r"""/* ================================================================
     }
 
     if (imagesCol) {
-      imagesCol.innerHTML = p.photos
+      const photosHtml = p.photos
         .map(
           (ph, idx) => `
           <figure class="detail-figure" id="detail-fig-${idx}">
@@ -2169,6 +2192,22 @@ APP_JS = r"""/* ================================================================
           </figure>`
         )
         .join("");
+      const videoHtml = p.video
+        ? `
+          <figure class="detail-figure detail-video-figure${p.video.span === 2 ? " is-span-2" : ""}" id="detail-fig-video">
+            <video class="detail-video" src="${resolvePath(p.video.src)}" autoplay loop muted playsinline preload="auto" width="${p.video.width || 608}" height="${p.video.height || 448}"></video>
+            <figcaption class="detail-figcap">
+              <span>[MOTION]</span>
+              <span>${escHtml(p.video.alt || p.title)}</span>
+            </figcaption>
+          </figure>`
+        : "";
+      imagesCol.innerHTML = photosHtml + videoHtml;
+      imagesCol.querySelectorAll("video").forEach((v) => {
+        v.muted = true;
+        const playPromise = v.play && v.play();
+        if (playPromise && typeof playPromise.catch === "function") playPromise.catch(() => {});
+      });
     }
 
     const curIdx = DATA.projects.findIndex((item) => item.id === projectId);
@@ -2699,7 +2738,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=19">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=20">
 </head>
 <body>
 {build_svg_filter()}
@@ -2948,7 +2987,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=17"></script>
+<script src="{p_url('/app.js')}?v=18"></script>
 </body>
 </html>
 """

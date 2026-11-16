@@ -385,6 +385,13 @@
           "alt": "ZINE image 4"
         }
       ],
+      "video": {
+        "src": "/assets/zines/plants/plants-motion.mp4?v=1",
+        "alt": "Plants Vol.1 — ZINE flip-through",
+        "width": 608,
+        "height": 448,
+        "span": 2
+      },
       "shop_url": "https://tairyoku.base.shop/items/149200903",
       "shop_label": "View in shop ↗"
     },
@@ -437,6 +444,13 @@
           "alt": "ZINE image 4"
         }
       ],
+      "video": {
+        "src": "/assets/zines/dream/dream-motion.mp4?v=1",
+        "alt": "A Dream to Help Me Sleep — ZINE flip-through",
+        "width": 608,
+        "height": 448,
+        "span": 2
+      },
       "shop_url": "https://tairyoku.base.shop/items/149200297",
       "shop_label": "View in shop ↗"
     },
@@ -862,6 +876,13 @@
           "alt": "ここは円の外 — CD artwork view 5"
         }
       ],
+      "video": {
+        "src": "/assets/cd/koko-wa-en-no-soto-motion.mp4?v=1",
+        "alt": "ここは円の外 — CD artwork motion",
+        "width": 720,
+        "height": 768,
+        "span": 1
+      },
       "shop_url": null,
       "shop_label": null
     },

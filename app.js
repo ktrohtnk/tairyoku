@@ -759,7 +759,7 @@
     }
 
     if (imagesCol) {
-      imagesCol.innerHTML = p.photos
+      const photosHtml = p.photos
         .map(
           (ph, idx) => `
           <figure class="detail-figure" id="detail-fig-${idx}">
@@ -771,6 +771,22 @@
           </figure>`
         )
         .join("");
+      const videoHtml = p.video
+        ? `
+          <figure class="detail-figure detail-video-figure${p.video.span === 2 ? " is-span-2" : ""}" id="detail-fig-video">
+            <video class="detail-video" src="${resolvePath(p.video.src)}" autoplay loop muted playsinline preload="auto" width="${p.video.width || 608}" height="${p.video.height || 448}"></video>
+            <figcaption class="detail-figcap">
+              <span>[MOTION]</span>
+              <span>${escHtml(p.video.alt || p.title)}</span>
+            </figcaption>
+          </figure>`
+        : "";
+      imagesCol.innerHTML = photosHtml + videoHtml;
+      imagesCol.querySelectorAll("video").forEach((v) => {
+        v.muted = true;
+        const playPromise = v.play && v.play();
+        if (playPromise && typeof playPromise.catch === "function") playPromise.catch(() => {});
+      });
     }
 
     const curIdx = DATA.projects.findIndex((item) => item.id === projectId);
