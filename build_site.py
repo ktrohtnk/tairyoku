@@ -9,6 +9,15 @@ SITE_ORIGIN = "https://tairyoku.jp"
 with open(DATA_PATH, "r", encoding="utf-8") as f:
     SITE_DATA = json.load(f)
 
+PINNED_TOP_PROJECT_IDS = ("carpe-diem", "tote-bags")
+_projects_by_id = {p["id"]: p for p in SITE_DATA["projects"]}
+_pinned_projects = [_projects_by_id[pid] for pid in PINNED_TOP_PROJECT_IDS if pid in _projects_by_id]
+_other_projects = [p for p in SITE_DATA["projects"] if p["id"] not in PINNED_TOP_PROJECT_IDS]
+SITE_DATA["projects"] = _pinned_projects + _other_projects
+for _idx, _proj in enumerate(SITE_DATA["projects"], 1):
+    _proj["index"] = _idx
+    _proj["code"] = f"{_idx:02d}"
+
 STYLES_CSS = r"""/* ==========================================================================
    TAIRYOKU (体力) — Contemporary Artist Archive / Kinetic Contact Wall
    Single-Color Ink System (Violet / Ultramarine / Cobalt) + Raw HTML UI
@@ -1821,13 +1830,22 @@ APP_JS = r"""/* ================================================================
 
   const shuffleBtn = document.getElementById("shuffle-wall-btn");
   if (shuffleBtn && wallGrid) {
+    const pinnedTopIds = ["carpe-diem", "tote-bags"];
     shuffleBtn.addEventListener("click", () => {
-      const tiles = Array.from(wallGrid.children);
-      for (let i = tiles.length - 1; i > 0; i--) {
+      const allTiles = Array.from(wallGrid.children);
+      const pinned = pinnedTopIds
+        .map((pid) => allTiles.find((t) => t.dataset.projectId === pid))
+        .filter(Boolean);
+      const rest = allTiles.filter((t) => !pinnedTopIds.includes(t.dataset.projectId));
+      for (let i = rest.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        wallGrid.appendChild(tiles[j]);
+        const tmp = rest[i];
+        rest[i] = rest[j];
+        rest[j] = tmp;
       }
-      tiles.forEach((t, idx) => setTimeout(() => wakeTile(t, 1200), idx * 45));
+      const nextOrder = [...pinned, ...rest];
+      nextOrder.forEach((t) => wallGrid.appendChild(t));
+      nextOrder.forEach((t, idx) => setTimeout(() => wakeTile(t, 1200), idx * 45));
     });
   }
 
@@ -3000,7 +3018,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=20"></script>
+<script src="{p_url('/app.js')}?v=21"></script>
 </body>
 </html>
 """

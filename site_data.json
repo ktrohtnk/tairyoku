@@ -135,183 +135,6 @@
     {
       "index": 1,
       "code": "01",
-      "id": "esse-oportet-ut-vivas",
-      "url": "/works/esse-oportet-ut-vivas.html",
-      "section": "works",
-      "group": "zine",
-      "year": "2026",
-      "category_label": "ZINE",
-      "title": "Esse oportet ut vivas, non vivere ut edas.",
-      "specs": [
-        {
-          "label": "Format",
-          "value": "ZINE"
-        },
-        {
-          "label": "Year",
-          "value": "2026 Autumn"
-        },
-        {
-          "label": "Artists",
-          "value": "Hatanaka Kentaro / Fukuyama Arata / Haruna Murayama (TAIRYOKU)"
-        },
-        {
-          "label": "Publisher",
-          "value": "TAIRYOKU BOOKS"
-        },
-        {
-          "label": "Origin",
-          "value": "Printed in Japan"
-        }
-      ],
-      "description": [
-        "Esse oportet ut vivas, non vivere ut edas.",
-        "Hatanaka Kentaro / Fukuyama Arata / Haruna Murayama (TAIRYOKU)",
-        "Published by TAIRYOKU BOOKS — Printed in Japan."
-      ],
-      "photos": [
-        {
-          "src": "/assets/zines/esse-oportet-ut-vivas/esse-01.png",
-          "alt": "Front cover & colophon"
-        },
-        {
-          "src": "/assets/zines/esse-oportet-ut-vivas/esse-02.png",
-          "alt": "Back cover & opening page"
-        },
-        {
-          "src": "/assets/zines/esse-oportet-ut-vivas/esse-03.png",
-          "alt": "Inside spread 1"
-        },
-        {
-          "src": "/assets/zines/esse-oportet-ut-vivas/esse-04.png",
-          "alt": "Inside spread 2"
-        }
-      ],
-      "shop_url": null,
-      "shop_label": null
-    },
-    {
-      "index": 2,
-      "code": "02",
-      "id": "dots-dog",
-      "url": "/works/dots-dog.html",
-      "section": "works",
-      "group": "zine",
-      "year": "2026",
-      "category_label": "ZINE",
-      "title": "** Dots Dog ** / First Edition",
-      "specs": [
-        {
-          "label": "Format",
-          "value": "ZINE"
-        },
-        {
-          "label": "Edition",
-          "value": "First Edition"
-        },
-        {
-          "label": "Year",
-          "value": "Summer, 2026"
-        },
-        {
-          "label": "Artists",
-          "value": "TAIRYOKU (Arata Fukuyama & Kentaro Hatanaka & Haruna Murayama)"
-        },
-        {
-          "label": "Publisher",
-          "value": "TAIRYOKU Books"
-        },
-        {
-          "label": "Origin",
-          "value": "Printed in Japan"
-        }
-      ],
-      "description": [
-        "** Dots Dog ** / First Edition",
-        "TAIRYOKU (Arata Fukuyama & Kentaro Hatanaka & Haruna Murayama)",
-        "Published by TAIRYOKU Books — Printed in Japan. © Summer, 2026 TAIRYOKU."
-      ],
-      "photos": [
-        {
-          "src": "/assets/zines/dots-dog/dots-dog-01.png",
-          "alt": "Front cover"
-        },
-        {
-          "src": "/assets/zines/dots-dog/dots-dog-02.png",
-          "alt": "Inside spread 1"
-        },
-        {
-          "src": "/assets/zines/dots-dog/dots-dog-03.png",
-          "alt": "Inside spread 2"
-        },
-        {
-          "src": "/assets/zines/dots-dog/dots-dog-04.png",
-          "alt": "Back cover & colophon"
-        }
-      ],
-      "shop_url": null,
-      "shop_label": null
-    },
-    {
-      "index": 3,
-      "code": "03",
-      "id": "sushi-postcards",
-      "url": "/works/sushi-postcards.html",
-      "section": "works",
-      "group": "zine",
-      "year": "2025",
-      "category_label": "Postcards",
-      "title": "SUSHI postcards",
-      "specs": [
-        {
-          "label": "Category",
-          "value": "Postcards"
-        },
-        {
-          "label": "Series",
-          "value": "tairyoku food series"
-        },
-        {
-          "label": "Types",
-          "value": "4 types"
-        },
-        {
-          "label": "Print",
-          "value": "Risograph Print"
-        },
-        {
-          "label": "Year",
-          "value": "2025"
-        }
-      ],
-      "description": [
-        "3 years rice. 5 years vinegar. Soy sauce? Freestyle.",
-        "SUSHI postcards — 4 types, Risograph Print (tairyoku food series). TAIRYOKU 2025."
-      ],
-      "photos": [
-        {
-          "src": "/assets/postcards/sushi/sushi-01.png",
-          "alt": "SUSHI postcard 1"
-        },
-        {
-          "src": "/assets/postcards/sushi/sushi-02.png",
-          "alt": "SUSHI postcard 2"
-        },
-        {
-          "src": "/assets/postcards/sushi/sushi-03.png",
-          "alt": "SUSHI postcard 3"
-        },
-        {
-          "src": "/assets/postcards/sushi/sushi-04.png",
-          "alt": "SUSHI postcard 4"
-        }
-      ],
-      "shop_url": null,
-      "shop_label": null
-    },
-    {
-      "index": 4,
-      "code": "04",
       "id": "carpe-diem",
       "url": "/works/carpe-diem.html",
       "section": "works",
@@ -389,8 +212,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 5,
-      "code": "05",
+      "index": 2,
+      "code": "02",
       "id": "tote-bags",
       "url": "/works/tote-bags.html",
       "section": "works",
@@ -456,6 +279,183 @@
       ],
       "shop_url": "https://tairyoku.base.shop/items/149238591",
       "shop_label": "View in shop ↗"
+    },
+    {
+      "index": 3,
+      "code": "03",
+      "id": "esse-oportet-ut-vivas",
+      "url": "/works/esse-oportet-ut-vivas.html",
+      "section": "works",
+      "group": "zine",
+      "year": "2026",
+      "category_label": "ZINE",
+      "title": "Esse oportet ut vivas, non vivere ut edas.",
+      "specs": [
+        {
+          "label": "Format",
+          "value": "ZINE"
+        },
+        {
+          "label": "Year",
+          "value": "2026 Autumn"
+        },
+        {
+          "label": "Artists",
+          "value": "Hatanaka Kentaro / Fukuyama Arata / Haruna Murayama (TAIRYOKU)"
+        },
+        {
+          "label": "Publisher",
+          "value": "TAIRYOKU BOOKS"
+        },
+        {
+          "label": "Origin",
+          "value": "Printed in Japan"
+        }
+      ],
+      "description": [
+        "Esse oportet ut vivas, non vivere ut edas.",
+        "Hatanaka Kentaro / Fukuyama Arata / Haruna Murayama (TAIRYOKU)",
+        "Published by TAIRYOKU BOOKS — Printed in Japan."
+      ],
+      "photos": [
+        {
+          "src": "/assets/zines/esse-oportet-ut-vivas/esse-01.png",
+          "alt": "Front cover & colophon"
+        },
+        {
+          "src": "/assets/zines/esse-oportet-ut-vivas/esse-02.png",
+          "alt": "Back cover & opening page"
+        },
+        {
+          "src": "/assets/zines/esse-oportet-ut-vivas/esse-03.png",
+          "alt": "Inside spread 1"
+        },
+        {
+          "src": "/assets/zines/esse-oportet-ut-vivas/esse-04.png",
+          "alt": "Inside spread 2"
+        }
+      ],
+      "shop_url": null,
+      "shop_label": null
+    },
+    {
+      "index": 4,
+      "code": "04",
+      "id": "dots-dog",
+      "url": "/works/dots-dog.html",
+      "section": "works",
+      "group": "zine",
+      "year": "2026",
+      "category_label": "ZINE",
+      "title": "** Dots Dog ** / First Edition",
+      "specs": [
+        {
+          "label": "Format",
+          "value": "ZINE"
+        },
+        {
+          "label": "Edition",
+          "value": "First Edition"
+        },
+        {
+          "label": "Year",
+          "value": "Summer, 2026"
+        },
+        {
+          "label": "Artists",
+          "value": "TAIRYOKU (Arata Fukuyama & Kentaro Hatanaka & Haruna Murayama)"
+        },
+        {
+          "label": "Publisher",
+          "value": "TAIRYOKU Books"
+        },
+        {
+          "label": "Origin",
+          "value": "Printed in Japan"
+        }
+      ],
+      "description": [
+        "** Dots Dog ** / First Edition",
+        "TAIRYOKU (Arata Fukuyama & Kentaro Hatanaka & Haruna Murayama)",
+        "Published by TAIRYOKU Books — Printed in Japan. © Summer, 2026 TAIRYOKU."
+      ],
+      "photos": [
+        {
+          "src": "/assets/zines/dots-dog/dots-dog-01.png",
+          "alt": "Front cover"
+        },
+        {
+          "src": "/assets/zines/dots-dog/dots-dog-02.png",
+          "alt": "Inside spread 1"
+        },
+        {
+          "src": "/assets/zines/dots-dog/dots-dog-03.png",
+          "alt": "Inside spread 2"
+        },
+        {
+          "src": "/assets/zines/dots-dog/dots-dog-04.png",
+          "alt": "Back cover & colophon"
+        }
+      ],
+      "shop_url": null,
+      "shop_label": null
+    },
+    {
+      "index": 5,
+      "code": "05",
+      "id": "sushi-postcards",
+      "url": "/works/sushi-postcards.html",
+      "section": "works",
+      "group": "zine",
+      "year": "2025",
+      "category_label": "Postcards",
+      "title": "SUSHI postcards",
+      "specs": [
+        {
+          "label": "Category",
+          "value": "Postcards"
+        },
+        {
+          "label": "Series",
+          "value": "tairyoku food series"
+        },
+        {
+          "label": "Types",
+          "value": "4 types"
+        },
+        {
+          "label": "Print",
+          "value": "Risograph Print"
+        },
+        {
+          "label": "Year",
+          "value": "2025"
+        }
+      ],
+      "description": [
+        "3 years rice. 5 years vinegar. Soy sauce? Freestyle.",
+        "SUSHI postcards — 4 types, Risograph Print (tairyoku food series). TAIRYOKU 2025."
+      ],
+      "photos": [
+        {
+          "src": "/assets/postcards/sushi/sushi-01.png",
+          "alt": "SUSHI postcard 1"
+        },
+        {
+          "src": "/assets/postcards/sushi/sushi-02.png",
+          "alt": "SUSHI postcard 2"
+        },
+        {
+          "src": "/assets/postcards/sushi/sushi-03.png",
+          "alt": "SUSHI postcard 3"
+        },
+        {
+          "src": "/assets/postcards/sushi/sushi-04.png",
+          "alt": "SUSHI postcard 4"
+        }
+      ],
+      "shop_url": null,
+      "shop_label": null
     },
     {
       "index": 6,

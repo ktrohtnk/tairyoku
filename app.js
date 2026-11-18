@@ -400,13 +400,22 @@
 
   const shuffleBtn = document.getElementById("shuffle-wall-btn");
   if (shuffleBtn && wallGrid) {
+    const pinnedTopIds = ["carpe-diem", "tote-bags"];
     shuffleBtn.addEventListener("click", () => {
-      const tiles = Array.from(wallGrid.children);
-      for (let i = tiles.length - 1; i > 0; i--) {
+      const allTiles = Array.from(wallGrid.children);
+      const pinned = pinnedTopIds
+        .map((pid) => allTiles.find((t) => t.dataset.projectId === pid))
+        .filter(Boolean);
+      const rest = allTiles.filter((t) => !pinnedTopIds.includes(t.dataset.projectId));
+      for (let i = rest.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        wallGrid.appendChild(tiles[j]);
+        const tmp = rest[i];
+        rest[i] = rest[j];
+        rest[j] = tmp;
       }
-      tiles.forEach((t, idx) => setTimeout(() => wakeTile(t, 1200), idx * 45));
+      const nextOrder = [...pinned, ...rest];
+      nextOrder.forEach((t) => wallGrid.appendChild(t));
+      nextOrder.forEach((t, idx) => setTimeout(() => wakeTile(t, 1200), idx * 45));
     });
   }
 
