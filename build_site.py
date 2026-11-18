@@ -1599,8 +1599,9 @@ APP_JS = r"""/* ================================================================
   function syncDirBtnLabel() {
     if (!toggleDirBtn || !directoryEl) return;
     const isOpen = !directoryEl.hasAttribute("hidden");
+    const count = DATA.projects ? DATA.projects.length : 0;
     toggleDirBtn.setAttribute("aria-pressed", String(isOpen));
-    toggleDirBtn.textContent = isOpen ? "index (18) [-]" : "index (18) [+]";
+    toggleDirBtn.textContent = isOpen ? `index (${count}) [-]` : `index (${count}) [+]`;
   }
   if (toggleDirBtn && directoryEl) {
     syncDirBtnLabel();
@@ -2605,6 +2606,9 @@ def render_page_html(
 ):
     projects = SITE_DATA["projects"]
     team = SITE_DATA["team"]
+    works_count = sum(1 for p in projects if p["section"] == "works")
+    exhibitions_count = sum(1 for p in projects if p["section"] == "exhibitions")
+    total_frames = sum(len(p["photos"]) for p in projects)
 
     canonical_url = f"{SITE_ORIGIN}{canonical_path}"
     og_image_url = og_image if og_image.startswith("http") else f"{SITE_ORIGIN}{og_image if og_image.startswith('/') else '/' + og_image}"
@@ -2766,11 +2770,11 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
     <nav class="raw-nav" aria-label="Primary navigation">
       <a href="{p_url('/index.html')}" data-filter-btn="all" aria-pressed="true">all ({len(ALL_TILES)})</a>
       <span class="raw-sep">/</span>
-      <a href="{p_url('/works.html')}" data-filter-btn="works">works (13)</a>
+      <a href="{p_url('/works.html')}" data-filter-btn="works">works ({works_count})</a>
       <span class="raw-sep">/</span>
-      <a href="{p_url('/exhibitions.html')}" data-filter-btn="exhibitions">exhibitions (5)</a>
+      <a href="{p_url('/exhibitions.html')}" data-filter-btn="exhibitions">exhibitions ({exhibitions_count})</a>
       <span class="raw-sep">/</span>
-      <button type="button" class="raw-btn" id="toggle-dir-btn" aria-pressed="false" aria-controls="raw-directory">index (18) [+]</button>
+      <button type="button" class="raw-btn" id="toggle-dir-btn" aria-pressed="false" aria-controls="raw-directory">index ({len(projects)}) [+]</button>
       <span class="raw-sep">/</span>
       <a href="#about-section">about &amp; creators</a>
       <span class="raw-sep">/</span>
@@ -2796,7 +2800,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
     <div class="ctrl-group">
       <span class="ctrl-label">category:</span>
       <button type="button" class="raw-btn" data-filter-btn="all" aria-pressed="true">all</button>
-      <button type="button" class="raw-btn" data-filter-btn="zine" aria-pressed="false">zine</button>
+      <button type="button" class="raw-btn" data-filter-btn="zine" aria-pressed="false">zine/print</button>
       <button type="button" class="raw-btn" data-filter-btn="apparel" aria-pressed="false">clothing/bag</button>
       <button type="button" class="raw-btn" data-filter-btn="exhibition" aria-pressed="false">exhibition</button>
       <button type="button" class="raw-btn" data-filter-btn="commission" aria-pressed="false">cd</button>
@@ -2992,11 +2996,11 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
       <span>TAIRYOKU (体力) — FUKUOKA CREATIVE TEAM — DRAWING / GRAPHIC DESIGN / ZINE / CLOTHING / EXHIBITION — HOVER WALL TO WAKE COLOR — &copy; 2026 TAIRYOKU. ALL RIGHTS RESERVED. — </span>
     </div>
   </div>
-  <div class="footer-status" id="status-readout">18 PROJECTS / 83 FRAMES READY [SINGLE-INK WALL]</div>
+  <div class="footer-status" id="status-readout">{len(projects)} PROJECTS / {total_frames} FRAMES READY [SINGLE-INK WALL]</div>
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=19"></script>
+<script src="{p_url('/app.js')}?v=20"></script>
 </body>
 </html>
 """

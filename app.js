@@ -178,8 +178,9 @@
   function syncDirBtnLabel() {
     if (!toggleDirBtn || !directoryEl) return;
     const isOpen = !directoryEl.hasAttribute("hidden");
+    const count = DATA.projects ? DATA.projects.length : 0;
     toggleDirBtn.setAttribute("aria-pressed", String(isOpen));
-    toggleDirBtn.textContent = isOpen ? "index (18) [-]" : "index (18) [+]";
+    toggleDirBtn.textContent = isOpen ? `index (${count}) [-]` : `index (${count}) [+]`;
   }
   if (toggleDirBtn && directoryEl) {
     syncDirBtnLabel();

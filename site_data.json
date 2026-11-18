@@ -135,6 +135,121 @@
     {
       "index": 1,
       "code": "01",
+      "id": "esse-oportet-ut-vivas",
+      "url": "/works/esse-oportet-ut-vivas.html",
+      "section": "works",
+      "group": "zine",
+      "year": "2026",
+      "category_label": "ZINE",
+      "title": "Esse oportet ut vivas, non vivere ut edas.",
+      "specs": [
+        {
+          "label": "Format",
+          "value": "ZINE"
+        },
+        {
+          "label": "Year",
+          "value": "2026 Autumn"
+        },
+        {
+          "label": "Artists",
+          "value": "Hatanaka Kentaro / Fukuyama Arata / Haruna Murayama (TAIRYOKU)"
+        },
+        {
+          "label": "Publisher",
+          "value": "TAIRYOKU BOOKS"
+        },
+        {
+          "label": "Origin",
+          "value": "Printed in Japan"
+        }
+      ],
+      "description": [
+        "Esse oportet ut vivas, non vivere ut edas.",
+        "Hatanaka Kentaro / Fukuyama Arata / Haruna Murayama (TAIRYOKU)",
+        "Published by TAIRYOKU BOOKS — Printed in Japan."
+      ],
+      "photos": [
+        {
+          "src": "/assets/zines/esse-oportet-ut-vivas/esse-01.png",
+          "alt": "Front cover & colophon"
+        },
+        {
+          "src": "/assets/zines/esse-oportet-ut-vivas/esse-02.png",
+          "alt": "Back cover & opening page"
+        },
+        {
+          "src": "/assets/zines/esse-oportet-ut-vivas/esse-03.png",
+          "alt": "Inside spread 1"
+        },
+        {
+          "src": "/assets/zines/esse-oportet-ut-vivas/esse-04.png",
+          "alt": "Inside spread 2"
+        }
+      ],
+      "shop_url": null,
+      "shop_label": null
+    },
+    {
+      "index": 2,
+      "code": "02",
+      "id": "sushi-postcards",
+      "url": "/works/sushi-postcards.html",
+      "section": "works",
+      "group": "zine",
+      "year": "2025",
+      "category_label": "Postcards",
+      "title": "SUSHI postcards",
+      "specs": [
+        {
+          "label": "Category",
+          "value": "Postcards"
+        },
+        {
+          "label": "Series",
+          "value": "tairyoku food series"
+        },
+        {
+          "label": "Types",
+          "value": "4 types"
+        },
+        {
+          "label": "Print",
+          "value": "Risograph Print"
+        },
+        {
+          "label": "Year",
+          "value": "2025"
+        }
+      ],
+      "description": [
+        "3 years rice. 5 years vinegar. Soy sauce? Freestyle.",
+        "SUSHI postcards — 4 types, Risograph Print (tairyoku food series). TAIRYOKU 2025."
+      ],
+      "photos": [
+        {
+          "src": "/assets/postcards/sushi/sushi-01.png",
+          "alt": "SUSHI postcard 1"
+        },
+        {
+          "src": "/assets/postcards/sushi/sushi-02.png",
+          "alt": "SUSHI postcard 2"
+        },
+        {
+          "src": "/assets/postcards/sushi/sushi-03.png",
+          "alt": "SUSHI postcard 3"
+        },
+        {
+          "src": "/assets/postcards/sushi/sushi-04.png",
+          "alt": "SUSHI postcard 4"
+        }
+      ],
+      "shop_url": null,
+      "shop_label": null
+    },
+    {
+      "index": 3,
+      "code": "03",
       "id": "carpe-diem",
       "url": "/works/carpe-diem.html",
       "section": "works",
@@ -212,8 +327,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 2,
-      "code": "02",
+      "index": 4,
+      "code": "04",
       "id": "tote-bags",
       "url": "/works/tote-bags.html",
       "section": "works",
@@ -281,8 +396,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 3,
-      "code": "03",
+      "index": 5,
+      "code": "05",
       "id": "boil-fast-eat-fast",
       "url": "/works/boil-fast-eat-fast.html",
       "section": "works",
@@ -337,8 +452,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 4,
-      "code": "04",
+      "index": 6,
+      "code": "06",
       "id": "plants-vol-1",
       "url": "/works/plants-vol-1.html",
       "section": "works",
@@ -396,8 +511,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 5,
-      "code": "05",
+      "index": 7,
+      "code": "07",
       "id": "a-dream-to-help-me-sleep",
       "url": "/works/a-dream-to-help-me-sleep.html",
       "section": "works",
@@ -455,8 +570,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 6,
-      "code": "06",
+      "index": 8,
+      "code": "08",
       "id": "illustration-of-living-things",
       "url": "/works/illustration-of-living-things.html",
       "section": "works",
@@ -507,8 +622,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 7,
-      "code": "07",
+      "index": 9,
+      "code": "09",
       "id": "cats-vol-1",
       "url": "/works/cats-vol-1.html",
       "section": "works",
@@ -559,8 +674,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 8,
-      "code": "08",
+      "index": 10,
+      "code": "10",
       "id": "cats-vol-2",
       "url": "/works/cats-vol-2.html",
       "section": "works",
@@ -611,8 +726,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 9,
-      "code": "09",
+      "index": 11,
+      "code": "11",
       "id": "snake-ver-1",
       "url": "/works/snake-ver-1.html",
       "section": "works",
@@ -663,8 +778,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 10,
-      "code": "10",
+      "index": 12,
+      "code": "12",
       "id": "snake-ver-2",
       "url": "/works/snake-ver-2.html",
       "section": "works",
@@ -715,8 +830,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 11,
-      "code": "11",
+      "index": 13,
+      "code": "13",
       "id": "her-ordinary-days",
       "url": "/works/her-ordinary-days.html",
       "section": "works",
@@ -767,8 +882,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 12,
-      "code": "12",
+      "index": 14,
+      "code": "14",
       "id": "cats-remix",
       "url": "/works/cats-remix.html",
       "section": "works",
@@ -827,8 +942,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 13,
-      "code": "13",
+      "index": 15,
+      "code": "15",
       "id": "koko-wa-en-no-soto",
       "url": "/commissions/koko-wa-en-no-soto.html",
       "section": "works",
@@ -887,8 +1002,8 @@
       "shop_label": null
     },
     {
-      "index": 14,
-      "code": "14",
+      "index": 16,
+      "code": "16",
       "id": "you-and-i",
       "url": "/exhibitions/you-and-i.html",
       "section": "exhibitions",
@@ -948,8 +1063,8 @@
       "shop_label": null
     },
     {
-      "index": 15,
-      "code": "15",
+      "index": 17,
+      "code": "17",
       "id": "soft-men",
       "url": "/works/soft-men.html",
       "section": "exhibitions",
@@ -1009,8 +1124,8 @@
       "shop_label": null
     },
     {
-      "index": 16,
-      "code": "16",
+      "index": 18,
+      "code": "18",
       "id": "10zine-2026",
       "url": "/exhibitions/10zine-2026.html",
       "section": "exhibitions",
@@ -1054,8 +1169,8 @@
       "shop_label": null
     },
     {
-      "index": 17,
-      "code": "17",
+      "index": 19,
+      "code": "19",
       "id": "taipei-art-book-fair",
       "url": "/works/taipei-art-book-fair.html",
       "section": "exhibitions",
@@ -1111,8 +1226,8 @@
       "shop_label": null
     },
     {
-      "index": 18,
-      "code": "18",
+      "index": 20,
+      "code": "20",
       "id": "10zine-2025",
       "url": "/exhibitions/10zine-2025.html",
       "section": "exhibitions",
