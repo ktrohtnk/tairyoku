@@ -335,6 +335,13 @@
           "alt": "Inside spread 2"
         }
       ],
+      "video": {
+        "src": "/assets/zines/esse-oportet-ut-vivas/esse-motion.mp4?v=1",
+        "alt": "Esse oportet ut vivas, non vivere ut edas. — ZINE flip-through",
+        "width": 608,
+        "height": 464,
+        "span": 2
+      },
       "shop_url": null,
       "shop_label": null
     },
@@ -397,6 +404,13 @@
           "alt": "Back cover & colophon"
         }
       ],
+      "video": {
+        "src": "/assets/zines/dots-dog/dots-dog-motion.mp4?v=1",
+        "alt": "** Dots Dog ** / First Edition — ZINE flip-through",
+        "width": 640,
+        "height": 480,
+        "span": 2
+      },
       "shop_url": null,
       "shop_label": null
     },
