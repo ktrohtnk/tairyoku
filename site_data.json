@@ -283,6 +283,83 @@
     {
       "index": 3,
       "code": "03",
+      "id": "eat-sleep-work-repeat",
+      "url": "/works/eat-sleep-work-repeat.html",
+      "section": "works",
+      "group": "zine",
+      "year": "2026",
+      "category_label": "ZINE",
+      "title": "Eat, sleep, work, repeat!",
+      "specs": [
+        {
+          "label": "Format",
+          "value": "ZINE"
+        },
+        {
+          "label": "Pages",
+          "value": "24"
+        },
+        {
+          "label": "Year",
+          "value": "2026 Winter"
+        },
+        {
+          "label": "Artists",
+          "value": "Fukuyama Arata / Hatanaka Kentaro / Haruna Murayama (TAIRYOKU)"
+        },
+        {
+          "label": "Publisher",
+          "value": "TAIRYOKU BOOKS"
+        },
+        {
+          "label": "Origin",
+          "value": "Printed in Japan"
+        }
+      ],
+      "description": [
+        "Eat, sleep, work, repeat! The clock goes tick tack, tick tack.",
+        "Fukuyama Arata / Hatanaka Kentaro / Haruna Murayama (TAIRYOKU)",
+        "Published by TAIRYOKU BOOKS — Printed in Japan. © TAIRYOKU 2026 Winter."
+      ],
+      "photos": [
+        {
+          "src": "/assets/zines/eat-sleep-work-repeat/tokei-01.png",
+          "alt": "Front cover"
+        },
+        {
+          "src": "/assets/zines/eat-sleep-work-repeat/tokei-02.png",
+          "alt": "Back cover & colophon"
+        },
+        {
+          "src": "/assets/zines/eat-sleep-work-repeat/tokei-03.png",
+          "alt": "Inside spread 1"
+        },
+        {
+          "src": "/assets/zines/eat-sleep-work-repeat/tokei-04.png",
+          "alt": "Inside spread 2"
+        },
+        {
+          "src": "/assets/zines/eat-sleep-work-repeat/tokei-05.png",
+          "alt": "Inside spread 3"
+        },
+        {
+          "src": "/assets/zines/eat-sleep-work-repeat/tokei-06.png",
+          "alt": "Inside spread 4"
+        }
+      ],
+      "video": {
+        "src": "/assets/zines/eat-sleep-work-repeat/tokei-motion.mp4?v=1",
+        "alt": "Eat, sleep, work, repeat! — ZINE flip-through",
+        "width": 592,
+        "height": 816,
+        "span": 2
+      },
+      "shop_url": null,
+      "shop_label": null
+    },
+    {
+      "index": 4,
+      "code": "04",
       "id": "esse-oportet-ut-vivas",
       "url": "/works/esse-oportet-ut-vivas.html",
       "section": "works",
@@ -346,8 +423,8 @@
       "shop_label": null
     },
     {
-      "index": 4,
-      "code": "04",
+      "index": 5,
+      "code": "05",
       "id": "dots-dog",
       "url": "/works/dots-dog.html",
       "section": "works",
@@ -415,8 +492,8 @@
       "shop_label": null
     },
     {
-      "index": 5,
-      "code": "05",
+      "index": 6,
+      "code": "06",
       "id": "sushi-postcards",
       "url": "/works/sushi-postcards.html",
       "section": "works",
@@ -472,8 +549,8 @@
       "shop_label": null
     },
     {
-      "index": 6,
-      "code": "06",
+      "index": 7,
+      "code": "07",
       "id": "boil-fast-eat-fast",
       "url": "/works/boil-fast-eat-fast.html",
       "section": "works",
@@ -528,8 +605,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 7,
-      "code": "07",
+      "index": 8,
+      "code": "08",
       "id": "plants-vol-1",
       "url": "/works/plants-vol-1.html",
       "section": "works",
@@ -587,8 +664,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 8,
-      "code": "08",
+      "index": 9,
+      "code": "09",
       "id": "a-dream-to-help-me-sleep",
       "url": "/works/a-dream-to-help-me-sleep.html",
       "section": "works",
@@ -646,8 +723,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 9,
-      "code": "09",
+      "index": 10,
+      "code": "10",
       "id": "illustration-of-living-things",
       "url": "/works/illustration-of-living-things.html",
       "section": "works",
@@ -698,8 +775,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 10,
-      "code": "10",
+      "index": 11,
+      "code": "11",
       "id": "cats-vol-1",
       "url": "/works/cats-vol-1.html",
       "section": "works",
@@ -750,8 +827,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 11,
-      "code": "11",
+      "index": 12,
+      "code": "12",
       "id": "cats-vol-2",
       "url": "/works/cats-vol-2.html",
       "section": "works",
@@ -802,8 +879,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 12,
-      "code": "12",
+      "index": 13,
+      "code": "13",
       "id": "snake-ver-1",
       "url": "/works/snake-ver-1.html",
       "section": "works",
@@ -854,8 +931,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 13,
-      "code": "13",
+      "index": 14,
+      "code": "14",
       "id": "snake-ver-2",
       "url": "/works/snake-ver-2.html",
       "section": "works",
@@ -906,8 +983,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 14,
-      "code": "14",
+      "index": 15,
+      "code": "15",
       "id": "her-ordinary-days",
       "url": "/works/her-ordinary-days.html",
       "section": "works",
@@ -958,8 +1035,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 15,
-      "code": "15",
+      "index": 16,
+      "code": "16",
       "id": "cats-remix",
       "url": "/works/cats-remix.html",
       "section": "works",
@@ -1018,8 +1095,8 @@
       "shop_label": "View in shop ↗"
     },
     {
-      "index": 16,
-      "code": "16",
+      "index": 17,
+      "code": "17",
       "id": "koko-wa-en-no-soto",
       "url": "/commissions/koko-wa-en-no-soto.html",
       "section": "works",
@@ -1078,8 +1155,8 @@
       "shop_label": null
     },
     {
-      "index": 17,
-      "code": "17",
+      "index": 18,
+      "code": "18",
       "id": "you-and-i",
       "url": "/exhibitions/you-and-i.html",
       "section": "exhibitions",
@@ -1139,8 +1216,8 @@
       "shop_label": null
     },
     {
-      "index": 18,
-      "code": "18",
+      "index": 19,
+      "code": "19",
       "id": "soft-men",
       "url": "/works/soft-men.html",
       "section": "exhibitions",
@@ -1200,8 +1277,8 @@
       "shop_label": null
     },
     {
-      "index": 19,
-      "code": "19",
+      "index": 20,
+      "code": "20",
       "id": "10zine-2026",
       "url": "/exhibitions/10zine-2026.html",
       "section": "exhibitions",
@@ -1245,8 +1322,8 @@
       "shop_label": null
     },
     {
-      "index": 20,
-      "code": "20",
+      "index": 21,
+      "code": "21",
       "id": "taipei-art-book-fair",
       "url": "/works/taipei-art-book-fair.html",
       "section": "exhibitions",
@@ -1302,8 +1379,8 @@
       "shop_label": null
     },
     {
-      "index": 21,
-      "code": "21",
+      "index": 22,
+      "code": "22",
       "id": "10zine-2025",
       "url": "/exhibitions/10zine-2025.html",
       "section": "exhibitions",
