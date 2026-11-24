@@ -780,7 +780,7 @@
       const photosHtml = p.photos
         .map(
           (ph, idx) => `
-          <figure class="detail-figure" id="detail-fig-${idx}">
+          <figure class="detail-figure${ph.half_spread ? " is-half-spread" : ""}" id="detail-fig-${idx}">
             <img src="${resolvePath(ph.src)}" alt="${escHtml(p.title)} — ${escHtml(ph.alt || idx + 1)}" loading="eager" decoding="async">
             <figcaption class="detail-figcap">
               <span>[${String(idx + 1).padStart(2, "0")}/${String(p.photos.length).padStart(2, "0")}]</span>

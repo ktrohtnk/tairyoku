@@ -1142,6 +1142,11 @@ html[data-color="color"] .contact-video {
   transition: filter 0.3s ease;
 }
 
+.detail-figure.is-half-spread img {
+  aspect-ratio: 852 / 1200;
+  object-fit: contain;
+}
+
 .detail-figure video {
   transition: none;
   pointer-events: none;
@@ -2210,7 +2215,7 @@ APP_JS = r"""/* ================================================================
       const photosHtml = p.photos
         .map(
           (ph, idx) => `
-          <figure class="detail-figure" id="detail-fig-${idx}">
+          <figure class="detail-figure${ph.half_spread ? " is-half-spread" : ""}" id="detail-fig-${idx}">
             <img src="${resolvePath(ph.src)}" alt="${escHtml(p.title)} — ${escHtml(ph.alt || idx + 1)}" loading="eager" decoding="async">
             <figcaption class="detail-figcap">
               <span>[${String(idx + 1).padStart(2, "0")}/${String(p.photos.length).padStart(2, "0")}]</span>
@@ -2769,7 +2774,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{html_lib.escape(og_image_url)}">
   <link rel="icon" href="{p_url('/favicon.svg')}">
-  <link rel="stylesheet" href="{p_url('/styles.css')}?v=20">
+  <link rel="stylesheet" href="{p_url('/styles.css')}?v=21">
 </head>
 <body>
 {build_svg_filter()}
@@ -3018,7 +3023,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=23"></script>
+<script src="{p_url('/app.js')}?v=24"></script>
 </body>
 </html>
 """

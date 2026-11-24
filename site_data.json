@@ -324,11 +324,8 @@
       "photos": [
         {
           "src": "/assets/zines/eat-sleep-work-repeat/tokei-01.png",
-          "alt": "Front cover"
-        },
-        {
-          "src": "/assets/zines/eat-sleep-work-repeat/tokei-02.png",
-          "alt": "Back cover & colophon"
+          "alt": "Front cover",
+          "half_spread": true
         },
         {
           "src": "/assets/zines/eat-sleep-work-repeat/tokei-03.png",
@@ -345,6 +342,11 @@
         {
           "src": "/assets/zines/eat-sleep-work-repeat/tokei-06.png",
           "alt": "Inside spread 4"
+        },
+        {
+          "src": "/assets/zines/eat-sleep-work-repeat/tokei-02.png",
+          "alt": "Back cover & colophon",
+          "half_spread": true
         }
       ],
       "video": {

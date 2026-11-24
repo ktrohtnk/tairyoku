@@ -1122,6 +1122,11 @@ html[data-color="color"] .contact-video {
   transition: filter 0.3s ease;
 }
 
+.detail-figure.is-half-spread img {
+  aspect-ratio: 852 / 1200;
+  object-fit: contain;
+}
+
 .detail-figure video {
   transition: none;
   pointer-events: none;
