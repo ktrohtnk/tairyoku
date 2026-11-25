@@ -3023,7 +3023,7 @@ window.INITIAL_SCROLL_TARGET = {json.dumps(initial_scroll)};
 </footer>
 
 {init_script}
-<script src="{p_url('/app.js')}?v=25"></script>
+<script src="{p_url('/app.js')}?v=26"></script>
 </body>
 </html>
 """

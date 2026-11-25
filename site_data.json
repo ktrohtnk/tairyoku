@@ -825,6 +825,13 @@
           "alt": "Inside spread two"
         }
       ],
+      "video": {
+        "src": "/assets/zines/cats-vol-1/cats-vol-1-motion.mp4?v=1",
+        "alt": "Difference / Repetition / Cats Vol.1 — ZINE flip-through",
+        "width": 640,
+        "height": 496,
+        "span": 2
+      },
       "shop_url": "https://tairyoku.base.shop/items/136332178",
       "shop_label": "View in shop ↗"
     },
@@ -1033,6 +1040,13 @@
           "alt": "Inside spread two"
         }
       ],
+      "video": {
+        "src": "/assets/zines/her-ordinary-days/her-ordinary-days-motion.mp4?v=1",
+        "alt": "Her Ordinary Days — ZINE flip-through",
+        "width": 656,
+        "height": 496,
+        "span": 2
+      },
       "shop_url": "https://tairyoku.base.shop/items/136225322",
       "shop_label": "View in shop ↗"
     },
