@@ -603,6 +603,13 @@
           "alt": "ZINE image 4"
         }
       ],
+      "video": {
+        "src": "/assets/zines/ramen-v2/ramen-motion.mp4?v=1",
+        "alt": "Boil Fast. Eat Fast (Eat a lot) — ZINE flip-through",
+        "width": 624,
+        "height": 464,
+        "span": 2
+      },
       "shop_url": "https://tairyoku.base.shop/items/136235645",
       "shop_label": "View in shop ↗"
     },
@@ -884,6 +891,13 @@
           "alt": "ZINE image 4"
         }
       ],
+      "video": {
+        "src": "/assets/zines/cats-vol-2/cats-vol-2-motion.mp4?v=1",
+        "alt": "Difference / Repetition / Cats Vol.2 / First Edition — ZINE flip-through",
+        "width": 624,
+        "height": 464,
+        "span": 2
+      },
       "shop_url": "https://tairyoku.base.shop/items/136332713",
       "shop_label": "View in shop ↗"
     },
@@ -936,6 +950,13 @@
           "alt": "ZINE image 4"
         }
       ],
+      "video": {
+        "src": "/assets/zines/snake-ver-1/snake-ver-1-motion.mp4?v=1",
+        "alt": "Maze / Improvisation / Hebi (Snake) Ver.1 / First Edition — ZINE flip-through",
+        "width": 624,
+        "height": 464,
+        "span": 2
+      },
       "shop_url": "https://tairyoku.base.shop/items/136282666",
       "shop_label": "View in shop ↗"
     },
@@ -988,6 +1009,13 @@
           "alt": "ZINE image 4"
         }
       ],
+      "video": {
+        "src": "/assets/zines/snake-ver-2/snake-ver-2-motion.mp4?v=1",
+        "alt": "Maze / Improvisation / Hebi (Snake) Ver.2 / First Edition — ZINE flip-through",
+        "width": 624,
+        "height": 464,
+        "span": 2
+      },
       "shop_url": "https://tairyoku.base.shop/items/136236426",
       "shop_label": "View in shop ↗"
     },
@@ -1107,6 +1135,13 @@
           "alt": "ZINE image 4"
         }
       ],
+      "video": {
+        "src": "/assets/zines/cats-remix/cats-remix-motion.mp4?v=1",
+        "alt": "Difference / Repetition / Cats / Remix Edition — ZINE flip-through",
+        "width": 624,
+        "height": 464,
+        "span": 2
+      },
       "shop_url": "https://tairyoku.base.shop/items/136223655",
       "shop_label": "View in shop ↗"
     },
